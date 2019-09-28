@@ -1,0 +1,75 @@
+html, body{
+    position: relative;
+    font-family: 'Nunito', sans-serif;
+    height: 100%;
+    background-color: #f9f9fb;
+}
+.btn-primary{
+    background-color: #4b7aed;
+    padding: 10px;
+    border: none;
+}
+.btn-primary:hover{
+    background-color: #4871d8;
+}
+.form-group{
+    position: relative;
+}
+.form-group label{
+    position: absolute;
+    top: 13px;
+    left: 20px;
+    font-weight: 300;
+    width: 100%;
+    max-width: 30px;
+    margin-bottom: 0;
+    border-right: 1px solid #e2e2e2;
+    color: #9e9e9e;
+    padding-top: 1px;
+}
+.form-control{
+    height: auto;
+    padding: 12px 15px 12px 65px;
+    border-color: #eaeaea;
+}
+.form-control:focus,
+.form-control:active{    
+    box-shadow: none;
+    border-color: #4b7aed;
+}
+
+.form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #bdbdbd;
+    opacity: 1; /* Firefox */
+}
+
+.form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #bdbdbd;
+}
+
+.form-control::-ms-input-placeholder { /* Microsoft Edge */
+    color: #bdbdbd;
+}
+
+h2{
+    font-size: 30px;
+    color: #676767;
+}
+.sub{
+    font-size: 14px;
+    color: #a5a5a5;
+}
+.copyright{
+    font-size: 14px;
+    color: #9e9e9e;
+}
+
+.alert-danger{
+    color: #fff;
+    background-color: #ff5665;
+    border: none;
+}
+.close,
+.close:hover{
+    color: #fff;
+}
