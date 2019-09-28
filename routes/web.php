@@ -25,7 +25,10 @@ Route::get('/users', 'App\UserController@showPageList')->name('users');
 
 Route::post('/users/add', 'App\UserController@addUser')->name('add-user');
 
-// Sales / Orders
+// Orders
+Route::get('/orders', 'App\OrderController@showPageList')->name('orders');
+
+// Sales 
 Route::get('/sales', 'App\SaleController@showPageList')->name('sales');
 
 // Reports
@@ -41,6 +44,7 @@ Route::get('/generate', function () {
         $admin = App\Role::firstOrCreate(['name' => 'Superadmin']);
         $administrator = App\Role::firstOrCreate(['name' => 'Administrador']);
         $seller = App\Role::firstOrCreate(['name' => 'Vendedor']);
+        $seller = App\Role::firstOrCreate(['name' => 'Repartidor']);
         $auditor = App\Role::firstOrCreate(['name' => 'Auditor']);
         $customer = App\Role::firstOrCreate(['name' => 'Cliente']);
 

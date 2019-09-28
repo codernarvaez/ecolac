@@ -49,7 +49,6 @@
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                 <a class="dropdown-item" href="#">Editar</a>
                                 <a class="dropdown-item" href="#">Desactivar</a>
-                                <a class="dropdown-item" href="#">Añadir Cuenta</a>
                             </div>
                         </div>
                     </div>
@@ -124,6 +123,7 @@
                                 <option value="Cliente">Cliente</option>
                                 <option value="Administrador">Administrador</option>
                                 <option value="Vendedor">Vendedor</option>
+                                <option value="Vendedor">Repartidor</option>
                                 <option value="Auditor">Auditor</option>
                             </select>
                         </div>

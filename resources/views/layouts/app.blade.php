@@ -51,18 +51,28 @@
                         <ul class="list-unstyled mb-0">
                             <li class="tag">Menu Principal</li>
                             @if (Auth::user()->person->role->name == "Superadmin" || Auth::user()->person->role->name == "Administrador")
-                            <li class="menu-item {{ (Route::currentRouteName() == 'products') ? 'active':'' }}"><a href="{{ route('products') }}"><i class="fas fa-box"></i>Productos</a></li>
+                            <li class="menu-item {{ (Route::currentRouteName() == 'products') ? 'active':'' }}"><a href="{{ route('products') }}"><i class="fas fa-box"></i>Inventario</a></li>
                             @endif
+
                             @if (Auth::user()->person->role->name == "Superadmin")
                             <li class="menu-item {{ (Route::currentRouteName() == 'users') ? 'active':'' }}"><a href="{{ route('users') }}"><i class="fas fa-users"></i>Usuarios</a></li>
                             @endif
-                            <li class="menu-item {{ (Route::currentRouteName() == 'sales') ? 'active':'' }}"><a href="{{ route('sales') }}"><i class="fas fa-clipboard-list"></i>{{ (Auth::user()->person->role->name == "Cliente") ? 'Mis Compras':'Pedidos/Ventas'}}</a></li>
+
+                            @if (Auth::user()->person->role->name != "Cliente")
+                            <li class="menu-item {{ (Route::currentRouteName() == 'orders') ? 'active':'' }}"><a href="{{ route('orders') }}"><i class="fas fa-clipboard-list"></i>Pedidos</a></li>
+                            <li class="menu-item {{ (Route::currentRouteName() == 'sales') ? 'active':'' }}"><a href="{{ route('sales') }}"><i class="fas fa-coins"></i>Ventas</a></li>
+                            @else
+                            <li class="menu-item"><a href="#"><i class="fas fa-clipboard-list"></i>Mis compras</a></li>
+                            @endif
+            
                             @if (Auth::user()->person->role->name == "Superadmin" || Auth::user()->person->role->name == "Administrador")
                             <li class="menu-item {{ (Route::currentRouteName() == 'reports') ? 'active':'' }}"><a href="{{ route('reports') }}"><i class="fas fa-archive"></i>Reportes</a></li>
                             @endif
+
                             @if (Auth::user()->person->role->name == "Superadmin")
                             <li class="menu-item {{ (Route::currentRouteName() == 'config') ? 'active':'' }}"><a href="{{ route('config') }}"><i class="fas fa-cog"></i>Configuración</a></li>
                             @endif
+
                             <li class="mt-5">
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf

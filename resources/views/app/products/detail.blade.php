@@ -52,12 +52,22 @@
             </div>        
             <div class="col-4">
                 <div class="feature">
-                    <span class="feature-tag">IVA: </span> {{ $product->iva * 100 }} %
+                    <span class="feature-tag">IVA: </span> {{ ($product->iva) ? 'Si':'No' }}
                 </div>
             </div>
             <div class="col-8">
                 <div class="feature">
                     <span class="feature-tag">Tipo: </span> {{ $product->type }}
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="feature">
+                    <span class="feature-tag">Expira: </span> {{ ($product->expires) ? 'Si':'No' }}
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="feature">
+                    <span class="feature-tag">Categoria: </span> {{ $product->category }}
                 </div>
             </div>
             <div class="col-12">
@@ -84,10 +94,10 @@
             </div>
             <div class="col-12">
                 <div class="feature">
-                    <span class="feature-tag">Colores: </span>
-                    @if ($product->color)
-                        @foreach ($product->color as $color)
-                            <span class="bordered-tag">{{ $color }}</span>
+                    <span class="feature-tag">Presentación: </span>
+                    @if ($product->presentation)
+                        @foreach ($product->presentation as $presentation)
+                            <span class="bordered-tag">{{ $presentation }}</span>
                         @endforeach
                     @else
                         (Ninguno)
@@ -253,7 +263,7 @@
                             $size = '';
                             if ($product->size) {
                                 foreach ($product->size as $item) {
-                                    $size = $size . $item . ", ";
+                                    $size = $size . trim($item) . ", ";
                                 }
                                 $size = substr($size, 0, -2);
                             }
@@ -268,19 +278,19 @@
                     </div>
                     <div class="form-group row">
                         @php
-                            $color = '';
-                            if ($product->color) {
-                                foreach ($product->color as $item) {
-                                    $color = $color . $item . ", ";
+                            $presentation = '';
+                            if ($product->presentation) {
+                                foreach ($product->presentation as $item) {
+                                    $presentation = $presentation . trim($item) . ", ";
                                 }
-                                $color = substr($color, 0, -2);
+                                $presentation = substr($presentation, 0, -2);
                             }
                         @endphp
-                        <label for="color" class="col-3">Colores</label>
+                        <label for="presentation" class="col-3">Presentación</label>
                         <div class="col">
-                            <input type="text" name="color" id="color" class="form-control" autocomplete="off" value="{{ $color }}">
+                            <input type="text" name="presentation" id="presentation" class="form-control" autocomplete="off" value="{{ $presentation }}">
                             <small id="passwordHelpBlock" class="form-text text-muted">
-                                Separados por ",". Ejemplo: Azul, Rojo, Verde
+                                Separados por ",". Ejemplo: Botella, Caja, Funda
                             </small>
                         </div>
                     </div>

@@ -78,6 +78,12 @@
                 <form action="{{ route('add-product') }}" method="post">
                     @csrf
                     <div class="form-group row align-items-center">
+                        <label for="code" class="col-3">Código</label>
+                        <div class="col-4">
+                            <input type="text" name="code" id="code" class="form-control" value="{{ $token }}"  autocomplete="off" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row align-items-center">
                         <label for="name" class="col-3">Nombre</label>
                         <div class="col">
                             <input type="text" name="name" id="name" class="form-control" autocomplete="off">
@@ -87,11 +93,18 @@
                         <label for="type" class="col-3">Tipo</label>
                         <div class="col">
                             <select name="type" id="type" class="form-control">
-                                <option value="Tecnología">Tecnología</option>
                                 <option value="Alimentos">Alimentos</option>
-                                <option value="Ropa">Ropa</option>
-                                <option value="Inmuebles">Inmuebles</option>
-                                <option value="Decoración">Decoración</option>
+                                <option value="Tecnología">Tecnología</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row align-items-center">
+                        <label for="category" class="col-3">Categoría</label>
+                        <div class="col">
+                            <select name="category" id="category" class="form-control">
+                                <option value="Lácteos">Lácteos</option>
+                                <option value="Frutas">Frutas</option>
+                                <option value="Cereales">Cereales</option>
                             </select>
                         </div>
                     </div>
@@ -101,13 +114,13 @@
                             <input type="text" name="price" id="price" class="form-control" autocomplete="off">
                         </div>
                     </div>
-                    <div class="form-group row align-items-center">
-                        <label for="iva" class="col-3">IVA</label>
-                        <div class="col-4">
-                            <select name="iva" id="iva" class="form-control">
-                                <option value="0">0 %</option>
-                                <option value="0.12">12 %</option>
-                            </select>
+                    <div class="form-group row align-items-center mb-4">
+                        <label class="col-3">IVA</label>
+                        <div class="col">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="iva" name="iva">
+                                <label class="custom-control-label" for="iva">Este producto tiene iva</label>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -126,7 +139,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="color" class="col-3">Colores</label>
+                        <label for="color" class="col-3">Presentación</label>
                         <div class="col">
                             <input type="text" name="color" id="color" class="form-control" autocomplete="off">
                             <small id="passwordHelpBlock" class="form-text text-muted">
@@ -135,7 +148,7 @@
                         </div>
                     </div>
                     <div class="form-group row align-items-center mb-4">
-                        <label for="color" class="col-3">Expiración</label>
+                        <label class="col-3">Expiración</label>
                         <div class="col">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="expires" name="expires">

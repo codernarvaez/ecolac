@@ -5,6 +5,7 @@ namespace App\Http\Controllers\App;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
+use App\Utils\Utilities;
 
 use App\Product;
 use App\ProductDetail;
@@ -18,7 +19,8 @@ class ProductController extends Controller
 
     public function showPageList(){
         $products = Product::all();
-        return view('app.products.list', ['products' => $products]);
+        $token = strtoupper(Utilities::getToken(8));
+        return view('app.products.list', ['products' => $products, 'token' => $token]);
     }
 
     public function showPageDetail($external){
@@ -28,8 +30,8 @@ class ProductController extends Controller
             $product->size = json_decode($product->size);
         }
 
-        if($product->color){
-            $product->color = json_decode($product->color);
+        if($product->presentation){
+            $product->presentation = json_decode($product->presentation);
         }
 
         return view('app.products.detail', ['product' => $product]);
@@ -37,19 +39,20 @@ class ProductController extends Controller
 
     public function addProduct(Request $request){
         $product = new Product;
-        $product->fill($request->only(['name', 'description', 'price', 'iva', 'type']));
+        $product->fill($request->only(['code', 'name', 'description', 'price', 'type', 'category']));
 
         if($request->size){
             $size = explode(",", $request->size);
             $product->size = json_encode($size);
         }
 
-        if($request->color){
-            $color = explode(",", $request->color);
-            $product->color = json_encode($color);
+        if($request->presentation){
+            $presentation = explode(",", $request->presentation);
+            $product->presentation = json_encode($presentation);
         }
 
         $product->expires = ($request->expires) ? 1:0;       
+        $product->has_iva = ($request->iva) ? 1:0;       
         $product->external_id = Str::uuid();
 
         $product->save();
@@ -91,18 +94,19 @@ class ProductController extends Controller
     public function editProduct(Request $request){
         $product = Product::where('external_id', $request->external_id)->first();
 
-        $product->fill($request->only(['name', 'description', 'price', 'iva', 'type']));
+        $product->fill($request->only(['name', 'description', 'price', 'iva', 'type', 'category']));
 
         if($request->size){
             $size = explode(",", $request->size);
             $product->size = json_encode($size);
         }
 
-        if($request->color){
-            $color = explode(",", $request->color);
-            $product->color = json_encode($color);
+        if($request->presentation){
+            $presentation = explode(",", $request->presentation);
+            $product->presentation = json_encode($presentation);
         }
 
+        $product->has_iva = ($request->iva) ? 1:0;
         $product->expires = ($request->expires) ? 1:0;
         $product->save();
 

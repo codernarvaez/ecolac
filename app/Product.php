@@ -9,18 +9,18 @@ class Product extends Model
     protected $primaryKey = 'id_product';
 
     protected $fillable = [
+        'code',
         'name',
         'description',
         'price',
-        'iva',
         'type',
-        'size',
-        'color'
+        'category',
     ];
 
     protected $attributes = [
         'expires' => false,
-        'deleted' => false
+        'deleted' => false,
+        'has_iva' => false
     ];
 
     public function details()
