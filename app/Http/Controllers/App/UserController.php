@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 
 use App\Role;
 use App\Person;
+use App\Location;
 use App\Account;
 
 class UserController extends Controller
@@ -35,6 +36,13 @@ class UserController extends Controller
         $account->password = Hash::make($request->username);
         $account->id_person = $person->id_person;
         $account->save();
+
+        if($request->role == "Cliente" || $request->role == "Repartidor" || $request->role == "Vendedor"){
+            $location = new Location;
+            $location->fill($request->only(['city', 'address', 'latitude', 'longitude']));
+            $location->id_person = $person->id_person;
+            $location->save();
+        }        
 
         return redirect('/users')->with('success', 'El usuario ha sido añadido correctamente.');
     }

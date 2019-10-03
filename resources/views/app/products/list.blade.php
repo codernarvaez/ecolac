@@ -68,7 +68,6 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-tag">Productos</h6>
                 <h5 class="modal-title">Nuevo Producto</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -77,6 +76,9 @@
             <div class="modal-body">
                 <form action="{{ route('add-product') }}" method="post">
                     @csrf
+                    <div class="form-divider">
+                        <span class="content">Información general</span>
+                    </div>
                     <div class="form-group row align-items-center">
                         <label for="code" class="col-3">Código</label>
                         <div class="col-4">
