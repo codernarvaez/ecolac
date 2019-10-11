@@ -303,6 +303,13 @@ footer p{
 .table-body .row .dropdown .btn-light:focus{
     box-shadow: none;
 }
+.table-body .enabled{
+    display: block;
+    font-size: 12px;
+    line-height: 1;
+    color: #ababab;
+    font-style: italic;
+}
 
 .divider-line{
     height: 1px;
@@ -316,7 +323,9 @@ footer p{
 }
 .form-search .form-control{
     height: auto;
-    font-size: 14px;
+    font-size: 14px;    
+}
+.form-search .form-control.icon{
     padding-left: 47px;
 }
 .form-search .form-group i{
@@ -376,6 +385,10 @@ footer p{
     color: #a5a5a5;
 }
 #product-details ul{
+    padding-left: 20px;
+}
+
+.confirm-msg{
     padding-left: 20px;
 }
 

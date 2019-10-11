@@ -46,4 +46,54 @@ class UserController extends Controller
 
         return redirect('/users')->with('success', 'El usuario ha sido añadido correctamente.');
     }
+
+    public function editUser(Request $request){
+        $person = Person::where('dni', $request->dni)->first();
+
+        $person->firstname = $request->firstname;
+        $person->lastname = $request->lastname;
+        $person->phone = $request->phone;
+        $person->email = $request->email;
+
+        if($request->role == "Cliente" || $request->role == "Repartidor" || $request->role == "Vendedor"){
+            $person->location()
+                   ->update([
+                        'city' => $request->city,
+                        'address' => $request->address,
+                        'latitude' => $request->latitude,
+                        'longitude' => $request->longitude
+                   ]);
+        }
+
+        $person->save();
+
+        return redirect('/users')->with('success', 'El usuario ha sido editado correctamente.');
+    }
+
+    public function disableAccount(Request $request){
+        $account = Account::where('id_account', $request->id)->first();
+
+        $account->enabled = false;
+        $account->save();
+
+        return redirect('/users')->with('success', 'La cuenta del usuario ha sido deshabilitada.');
+    }
+
+    public function enableAccount(Request $request){
+        $account = Account::where('id_account', $request->id)->first();
+
+        $account->enabled = true;
+        $account->save();
+
+        return redirect('/users')->with('success', 'La cuenta del usuario ha sido habilitada.');
+    }
+
+    public function resetPassword(Request $request){
+        $account = Account::where('id_account', $request->id)->first();
+
+        $account->password = Hash::make($account->username);
+        $account->save();
+
+        return redirect('/users')->with('success', 'La contraseña del usuario ha sido restablecida.');
+    }
 }

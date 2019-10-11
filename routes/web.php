@@ -1,43 +1,44 @@
 <?php
 
-// Site 
+// ************** Site **************
 Route::get('/', function () {
     return view('welcome');
 });
 
-// Authentication
+// ************** Authentication **************
 Route::get('/login', 'Auth\LoginController@showLogin');
 Route::post('/login', 'Auth\LoginController@login')->name('login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
-// Products
+// ************** Products **************
 Route::get('/products', 'App\ProductController@showPageList')->name('products');
 Route::get('/products/view/{external}', 'App\ProductController@showPageDetail');
-
 Route::post('/products/add', 'App\ProductController@addProduct')->name('add-product');
 Route::post('/products/add/detail', 'App\ProductController@addProductDetail')->name('add-product-detail');
 Route::post('/products/add/lot', 'App\ProductController@addProductLot')->name('add-product-lot');
-
 Route::put('/products/edit', 'App\ProductController@editProduct')->name('edit-product');
 
-// Users
+// ************** Users **************
 Route::get('/users', 'App\UserController@showPageList')->name('users');
-
 Route::post('/users/add', 'App\UserController@addUser')->name('add-user');
+Route::post('/users/enable', 'App\UserController@enableAccount')->name('enable-user');
+Route::post('/users/disable', 'App\UserController@disableAccount')->name('disable-user');
+Route::post('/users/restore', 'App\UserController@resetPassword')->name('restore-user');
+Route::put('/users/edit', 'App\UserController@editUser')->name('edit-user');
 
-// Orders
+// ************** Orders **************
 Route::get('/orders', 'App\OrderController@showPageList')->name('orders');
 
-// Sales 
+// ************** Sales **************
 Route::get('/sales', 'App\SaleController@showPageList')->name('sales');
 
-// Reports
+// ************** Reports **************
 Route::get('/reports', 'App\ReportController@showPageList')->name('reports');
 
-// Config
+// ************** Config **************
 Route::get('/config', 'App\ConfigController@showMainPage')->name('config');
 
-// Data Generation
+// ************** Data Generation **************
 Route::get('/generate', function () {
     $role = App\Role::first();
     if(!$role){

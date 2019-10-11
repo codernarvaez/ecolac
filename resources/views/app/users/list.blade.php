@@ -6,7 +6,7 @@
         <h2 class="section-title mb-0">Listado de Usuarios</h2>        
     </div>
     <div class="col text-right">
-        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#user-modal">Añadir Usuario</button>
+        <button id="add_user" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#user-modal">Añadir Usuario</button>
     </div>
 </div>
 
@@ -20,8 +20,23 @@
     <div class="col-4">
         <form action="" method="post" class="form-search">
             <div class="form-group">
-                <input type="text" name="search" id="search" class="form-control" placeholder="Buscar" autocomplete="off">
+                <input type="text" name="search" id="search" class="form-control icon" placeholder="Buscar" autocomplete="off">
                 <i class="fas fa-search"></i>
+            </div>
+        </form>
+    </div>
+    <div class="col-5"></div>
+    <div class="col-3">
+        <form action="" method="post" class="form-search">
+            <div class="form-group">
+                <select name="enabled" id="enabled" class="form-control">
+                    <option disabled selected>Todos</option>
+                    <option value="Administrador">Administradores</option>
+                    <option value="Cliente">Clientes</option>
+                    <option value="Vendedor">Vendedores</option>
+                    <option value="Vendedor">Repartidores</option>
+                    <option value="Auditor">Auditores</option>
+                </select>
             </div>
         </form>
     </div>
@@ -47,8 +62,14 @@
                             </a>
                             
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="#">Editar</a>
-                                <a class="dropdown-item" href="#">Desactivar</a>
+                                <button class="dropdown-item" data-toggle="modal" data-target="#user-modal" onclick="editUser({ 'user': {{ $user }}, 'role': {{ $user->role }}, 'account': {{ $user->account }}, 'location': {{ ($user->location) ? $user->location : 'null' }}})">Editar</button>
+                                <div class="dropdown-divider"></div>
+                                @if ($user->account->enabled)
+                                <button class="dropdown-item" data-toggle="modal" data-target="#disable-modal" onclick="setId({{ $user->account->id_account }}, true)">Deshabilitar cuenta</button>
+                                @else
+                                <button class="dropdown-item" data-toggle="modal" data-target="#enable-modal" onclick="setId({{ $user->account->id_account }}, false)">Habilitar cuenta</button>    
+                                @endif
+                                <button class="dropdown-item" data-toggle="modal" data-target="#restore-modal" onclick="setRestore({{ $user->account->id_account }})">Restablecer contraseña</button>
                             </div>
                         </div>
                     </div>
@@ -63,7 +84,8 @@
                         {{ $user->role->name }}
                     </div>
                     <div class="col-2">
-                        {{ $user->account->username }}
+                        <span class="enabled">{{ ($user->account->enabled) ? 'Activo':'Inactivo' }}</span>
+                        <span class="username">{{ $user->account->username }}</span>
                     </div>
                 </div>
                 @endforeach
@@ -83,7 +105,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('add-user') }}" method="post">
+                <form id="user_form" action="{{ route('add-user') }}" method="post">
                     @csrf
                     <div class="form-divider">
                         <span class="content">Información personal</span>
@@ -143,22 +165,22 @@
                         <div class="form-divider">
                             <span class="content">Información de ubicación</span>
                         </div>
+                        <div class="form-group row">
+                            <div class="col-3"></div>
+                            <div class="col-9">
+                                <div id='map' style='width: 100%; height: 200px; border-radius: 5px;'></div>
+                            </div>
+                        </div>
                         <div class="form-group row align-items-center">
                             <label for="city" class="col-3">Ciudad</label>
                             <div class="col-5">
-                                <input type="text" name="city" id="city" class="form-control" autocomplete="off">
+                                <input type="text" name="city" id="city" class="form-control" autocomplete="off" readonly>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="address" class="col-3">Dirección</label>
                             <div class="col">
                                 <textarea class="form-control" id="address" name="address" rows="3" autocomplete="off"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-3"></div>
-                            <div class="col-9">
-                                <div id='map' style='width: 100%; height: 200px; border-radius: 5px;'></div>
                             </div>
                         </div>
                         <div class="form-group row align-items-center">
@@ -181,4 +203,211 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Disable -->
+<div class="modal fade" id="disable-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Deshabilitar cuenta</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="confirm-msg">¿Está seguro/a que desea realizar esta acción?</p>
+                <form action="{{ route('disable-user') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="id" id="disable_id">
+                    <div class="form-group text-right mt-4">
+                        <button type="submit" class="btn btn-primary mr-2">Confirmar</button>
+                        <button type="reset" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Enable -->
+<div class="modal fade" id="enable-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Habilitar cuenta</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="confirm-msg">¿Está seguro/a que desea realizar esta acción?</p>
+                <form action="{{ route('enable-user') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="id" id="enable_id">
+                    <div class="form-group text-right mt-4">
+                        <button type="submit" class="btn btn-primary mr-2">Confirmar</button>
+                        <button type="reset" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Restore -->
+<div class="modal fade" id="restore-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Restablecer contraseña</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="confirm-msg">¿Está seguro/a que desea realizar esta acción?</p>
+                <form action="{{ route('restore-user') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="id" id="restore_id">
+                    <div class="form-group text-right mt-4">
+                        <button type="submit" class="btn btn-primary mr-2">Confirmar</button>
+                        <button type="reset" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
+@section('scripts')
+<script src='https://api.mapbox.com/mapbox-gl-js/v1.3.2/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v1.3.2/mapbox-gl.css' rel='stylesheet' />
+
+<script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
+
+<!-- Map Scripts -->
+<script>    
+    mapboxgl.accessToken = 'pk.eyJ1Ijoic2FrZWkiLCJhIjoiY2sxYjdvbW5tMGxtMDNkcGZvN3NuOWV0ZiJ9.6fwPb6JHMxel4jN5qQfu0g';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: '/json/map/style.json',
+        center: [-79.2, -4.005569],
+        zoom: 12
+    });
+
+    var mapboxClient = new mapboxSdk({ accessToken: mapboxgl.accessToken });
+
+    map.addControl(new mapboxgl.GeolocateControl({
+        positionOptions: {
+            enableHighAccuracy: true
+        },
+        trackUserLocation: true
+    }));
+
+    var marker = new mapboxgl.Marker({
+        draggable: true
+    })
+    .setLngLat([-79.2, -4])
+    .addTo(map);
+
+    function onDragEnd() {
+        var lngLat = marker.getLngLat();
+
+        mapboxClient.geocoding.reverseGeocode({
+            query: [lngLat.lng, lngLat.lat],
+            limit: 1
+        })
+        .send()
+        .then(response => {
+            $('#city').val(response.body.features[0].context[0].text + ", " + response.body.features[0].context[2].text);
+            $('#latitude').val(lngLat.lat);
+            $('#longitude').val(lngLat.lng);       
+        });
+    }
+    
+    marker.on('dragend', onDragEnd);
+
+    var nav = new mapboxgl.NavigationControl();
+    map.addControl(nav, 'top-left');
+    
+    // disable map rotation using right click + drag
+    map.dragRotate.disable();
+    
+    // disable map rotation using touch rotation gesture
+    map.touchZoomRotate.disableRotation();
+</script>
+
+<!-- View Scripts -->
+<script>
+    // 'onChange' listener
+    $('#role').on('change', function(e){
+        toggleMap();
+    });
+
+    // Reset users form
+    $('#add_user').on('click', function(e){
+        $('#user_form').trigger('reset');
+        $('#user_form').attr('action', '{{ route("add-user") }}');
+        $('#dni, #username, #role').removeAttr('readonly');
+
+        toggleMap();
+
+        map.setCenter([-79.2, -4.005569]);
+        map.setZoom(12);
+        marker.setLngLat([-79.2, -4.005569]);
+
+        $('#method_form').remove();
+    });
+
+    // Show/Hide Map on form
+    function toggleMap(){
+        var role = $('#role').val();
+        if(role == "Cliente" || role == "Repartidor" || role == "Vendedor"){
+            $('#location-info').removeClass('hidden');
+        }else{
+            $('#location-info').addClass('hidden');
+        }
+    }
+    
+    function editUser(data){
+        $('#dni, #username, #role').attr('readonly', '');
+
+        $('#dni').val(data.user.dni);
+        $('#firstname').val(data.user.firstname);
+        $('#lastname').val(data.user.lastname);
+        $('#phone').val(data.user.phone);
+        $('#email').val(data.user.email);
+
+        $('#username').val(data.account.username);
+        $('#role').val(data.role.name);
+
+        toggleMap();
+
+        if(data.location){
+            $('#city').val(data.location.city);
+            $('#address').val(data.location.address);
+            $('#longitude').val(data.location.longitude);
+            $('#latitude').val(data.location.latitude);
+
+            map.setCenter([data.location.longitude, data.location.latitude]);
+            marker.setLngLat([data.location.longitude, data.location.latitude]);
+            map.setZoom(15);
+        }
+
+        $('#user_form').prepend('<input id="method_form" type="hidden" name="_method" value="PUT">');
+        $('#user_form').attr('action', '{{ route("edit-user") }}');
+    }
+
+    function setId(id, status){
+        if(status)
+            $('#disable_id').val(id);
+        else
+            $('#enable_id').val(id);
+    }
+
+    function setRestore(id){
+        $('#restore_id').val(id);
+    }
+</script>
 @endsection

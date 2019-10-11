@@ -22,9 +22,9 @@ class Person extends Model
         return $this->belongsTo('App\Role', 'id_role', 'id_role');
     }
     
-    public function locations()
+    public function location()
     {
-        return $this->hasMany('App\Location', 'id_person', 'id_person');
+        return $this->hasOne('App\Location', 'id_person', 'id_person');
     }
 
     public function account()
