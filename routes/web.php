@@ -11,7 +11,7 @@ Route::post('/login', 'Auth\LoginController@login')->name('login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
 // ************** Products **************
-Route::get('/products', 'App\ProductController@showPageList')->name('products');
+Route::get('/products/{p?}', 'App\ProductController@showPageList')->name('products');
 Route::get('/products/view/{external}', 'App\ProductController@showPageDetail');
 Route::post('/products/add', 'App\ProductController@addProduct')->name('add-product');
 Route::post('/products/add/detail', 'App\ProductController@addProductDetail')->name('add-product-detail');
@@ -19,7 +19,7 @@ Route::post('/products/add/lot', 'App\ProductController@addProductLot')->name('a
 Route::put('/products/edit', 'App\ProductController@editProduct')->name('edit-product');
 
 // ************** Users **************
-Route::get('/users', 'App\UserController@showPageList')->name('users');
+Route::get('/users/{p?}', 'App\UserController@showPageList')->name('users');
 Route::post('/users/add', 'App\UserController@addUser')->name('add-user');
 Route::post('/users/enable', 'App\UserController@enableAccount')->name('enable-user');
 Route::post('/users/disable', 'App\UserController@disableAccount')->name('disable-user');

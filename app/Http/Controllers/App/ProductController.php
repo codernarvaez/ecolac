@@ -17,10 +17,17 @@ class ProductController extends Controller
         $this->middleware('auth');
     }
 
-    public function showPageList(){
-        $products = Product::all();
+    public function showPageList($p = 1){
+        $count = Product::all()->count();
+        if($p > 1){
+            $skip = ($p - 1) * 20;
+            $products = Product::orderBy('id_product','desc')->skip($skip)->take(20)->get();
+        }else{
+            $products = Product::orderBy('id_product','desc')->take(20)->get();
+        }
+        
         $token = strtoupper(Utilities::getToken(8));
-        return view('app.products.list', ['products' => $products, 'token' => $token]);
+        return view('app.products.list', ['products' => $products, 'token' => $token, 'count' => $count, 'p' => $p]);
     }
 
     public function showPageDetail($external){

@@ -17,10 +17,25 @@ class UserController extends Controller
         $this->middleware('auth');
     }
 
-    public function showPageList(){
-        $auth_user = auth()->user()->person;
-        $people = Person::where('id_person', '!=', $auth_user->id_person)->get();
-        return view('app.users.list', ['users' => $people]);
+    public function showPageList($p = 1){        
+        $auth_user = auth()->user()->person;  
+        $count = Person::where('id_person', '!=', $auth_user->id_person)->count();
+
+        if($p > 1){
+            $skip = ($p - 1) * 20;
+            $people = Person::where('id_person', '!=', $auth_user->id_person)
+                    ->orderBy('id_person','desc')
+                    ->skip($skip)
+                    ->take(20)
+                    ->get();
+        }else{
+            $people = Person::where('id_person', '!=', $auth_user->id_person)
+                    ->orderBy('id_person','desc')
+                    ->take(20)
+                    ->get();
+        }
+        
+        return view('app.users.list', ['users' => $people, 'count' => $count, 'p' => $p]);
     }
 
     public function addUser(Request $request){

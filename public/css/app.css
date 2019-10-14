@@ -27,6 +27,14 @@ footer p{
     display: none;
 }
 
+.viewing{
+    font-size: 12px;
+    text-align: right;
+    font-style: italic;
+    color: #949393;
+    margin-bottom: 0;
+}
+
 .btn-primary{
     background-color: #4b7aed;
     border: none;
@@ -84,6 +92,33 @@ footer p{
     right: 0;
     height: 1px;
     background-color: #dadada;
+}
+
+.pagination{
+    padding-top: 15px;
+}
+.page-link{
+    margin: 0 4px;
+    border-radius: 100%;
+    border: none;
+    background-color: transparent;
+    color: #6588c0;
+    font-size: 14px;
+    width: 33px;
+    text-align: center;
+    padding: 8px 0 8px;
+}
+.page-item:first-child .page-link,
+.page-item:last-child .page-link{
+    border-radius: 100%;
+}
+.page-item.active .page-link{
+    background-color: #4b7aed;
+    border: none;
+}
+.page-item span{
+    padding: 0 10px;
+    color: #b1b1b1;
 }
 
 .truncate{

@@ -60,6 +60,77 @@
                 @endforeach
             </div>
         </div>
+        <div class="row table-footer align-items-center">
+            <div class="col-8">
+                @php
+                    $pages = round($count / 20);
+                    $n_pages = $pages - $p;
+                @endphp  
+
+                @if ($pages > 1)
+                    <nav aria-label="Page navigation example">                        
+                        <ul class="pagination mb-0">
+                            @if ($p != 1)
+                            <li class="page-item prev">
+                                <a class="page-link" href="{{ route('products', ['p' => $p - 1 ]) }}" aria-label="Anterior">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            
+                            @if ($pages > 5)
+                            <li class="page-item">
+                                <a class="page-link" href="{{ route('products', ['p' => 1 ]) }}">1</a>
+                            </li>
+                            <li class="page-item">
+                                <span>...</span>
+                            </li>
+                            @endif
+                            
+                            @endif 
+
+                            @if ($n_pages >= 5)
+                                @for ($i = $p; $i <= $p + 4; $i++)
+                                <li class="page-item {{ ($i == $p) ? 'active':'' }}" {{ ($i == $p) ? 'aria-current="page"':'' }}><a class="page-link" href="{{ route('products', ['p' => $i ]) }}">{{ $i }}</a></li>
+                                @endfor                             
+                            @else
+                                @if ($pages > 5)
+                                    @for ($i = $pages - 5; $i <= $pages; $i++)
+                                    <li class="page-item {{ ($i == $p) ? 'active':'' }}" {{ ($i == $p) ? 'aria-current="page"':'' }}><a class="page-link" href="{{ route('products', ['p' => $i ]) }}">{{ $i }}</a></li>
+                                    @endfor    
+                                @else
+                                    @for ($i = 1; $i <= $pages; $i++)
+                                    <li class="page-item {{ ($i == $p) ? 'active':'' }}" {{ ($i == $p) ? 'aria-current="page"':'' }}><a class="page-link" href="{{ route('products', ['p' => $i ]) }}">{{ $i }}</a></li>
+                                    @endfor 
+                                @endif
+                                                            
+                            @endif                            
+                            
+                            @if ($p != $pages)
+
+                            @if ($pages > 5 && $n_pages > 4)
+                            <li class="page-item">
+                                <span>...</span>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="{{ route('products', ['p' => $pages ]) }}">{{ $pages }}</a>
+                            </li>  
+                            @endif
+                            
+                            <li class="page-item next">
+                                <a class="page-link" href="{{ route('products', ['p' => $p + 1 ]) }}" aria-label="Siguiente">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li> 
+                            @endif
+                            
+                        </ul>
+                    </nav>         
+                @endif
+            </div>
+            <div class="col-4">
+                <p class="viewing">Viendo {{ ($p > 1) ? ((count($products) == 20) ? ($p * 20): $count): count($products) }} de {{ $count }} registros.</p>
+            </div>
+        </div>
     </div>
 </div>
 
