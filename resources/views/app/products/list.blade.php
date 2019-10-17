@@ -63,7 +63,7 @@
         <div class="row table-footer align-items-center">
             <div class="col-8">
                 @php
-                    $pages = round($count / 20);
+                    $pages = ceil($count / 20);
                     $n_pages = $pages - $p;
                 @endphp  
 

@@ -6,7 +6,7 @@
         <h2 class="section-title mb-0">Listado de Pedidos</h2>        
     </div>
     <div class="col text-right">
-        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#order-modal">Añadir Pedido</button>
+        <a href="{{ route('new-order') }}" class="btn btn-primary btn-sm">Añadir Pedido</a>
     </div>
 </div>
 
@@ -37,6 +37,15 @@
             <div class="col-2">Tipo</div>
             <div class="col-2">Estado</div>
         </div>
+        <div class="row table-body">
+            <div class="col">
+                <div class="row align-items-center">
+                    <div class="col-12">
+                        <p class="empty">No se han encontrado elementos para esta lista.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -45,7 +54,6 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-tag">Pedidos</h6>
                 <h5 class="modal-title">Nuevo Pedido</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -54,10 +62,13 @@
             <div class="modal-body">
                 <form action="" method="post">
                     @csrf
+                    <div class="form-divider">
+                        <span class="content">Información general</span>
+                    </div>
                     <div class="form-group row align-items-center">
                         <label for="code" class="col-3">Código</label>
                         <div class="col-4">
-                            <input type="text" name="code" id="code" class="form-control" value="{{ $token }}"  autocomplete="off" readonly>
+                            <input type="text" name="code" id="code" class="form-control" value=""  autocomplete="off" readonly>
                         </div>
                     </div>
                     <div class="form-group row align-items-center">
@@ -83,6 +94,9 @@
                         <div class="col">
                             <textarea class="form-control" id="observations" name="observations" rows="3" autocomplete="off"></textarea>
                         </div>
+                    </div>
+                    <div class="form-divider">
+                        <span class="content">Detalle del pedido</span>
                     </div>
                     <div class="form-group text-right">
                         <button type="submit" class="btn btn-primary mr-2">Guardar</button>

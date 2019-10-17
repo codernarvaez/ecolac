@@ -12,6 +12,7 @@ Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
 // ************** Products **************
 Route::get('/products/{p?}', 'App\ProductController@showPageList')->name('products');
+Route::get('/products/ajax/list/{p?}', 'App\ProductController@getProductList')->name('product-list');
 Route::get('/products/view/{external}', 'App\ProductController@showPageDetail');
 Route::post('/products/add', 'App\ProductController@addProduct')->name('add-product');
 Route::post('/products/add/detail', 'App\ProductController@addProductDetail')->name('add-product-detail');
@@ -28,6 +29,7 @@ Route::put('/users/edit', 'App\UserController@editUser')->name('edit-user');
 
 // ************** Orders **************
 Route::get('/orders', 'App\OrderController@showPageList')->name('orders');
+Route::get('/orders/new', 'App\OrderController@showAddOrder')->name('new-order');
 
 // ************** Sales **************
 Route::get('/sales', 'App\SaleController@showPageList')->name('sales');

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\App;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Builder;
+use App\Http\Controllers\Controller;
 use App\Utils\Utilities;
 
 use App\Product;
@@ -118,5 +120,24 @@ class ProductController extends Controller
         $product->save();
 
         return redirect('/products/view/'.$product->external_id)->with('success', 'El producto ha sido modificado correctamente.');
+    }
+
+    public function getProductList($p = 1){
+        $current_date = date('Y-m-d', time());
+        $count = Product::all()->count();
+        $pages = ceil($count / 20);
+
+        if($p > 1){
+            $skip = ($p - 1) * 20;
+            $products = Product::whereHas('lots', function (Builder $query){
+                $query->where('expiry', '>=', date('Y-m-d', time()));
+            })->orderBy('id_product','desc')->skip($skip)->take(5)->get();
+        }else{
+            $products = Product::whereHas('lots', function (Builder $query){
+                $query->where('expiry', '>=', date('Y-m-d', time()));
+            })->orderBy('id_product','desc')->take(5)->get();
+        }
+
+        return ["products" => $products, "pages" => $pages, "current_page" => $p];
     }
 }

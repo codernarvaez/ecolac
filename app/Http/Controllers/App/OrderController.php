@@ -13,12 +13,11 @@ class OrderController extends Controller
     }
 
     public function showPageList(){
-        $token = strtoupper(Utilities::getToken(10));
-
-        return view('app.orders.list', ['token' => $token]);
+        return view('app.orders.list');
     }
 
-    public function addOrder(){
-        // Functionality
+    public function showAddOrder(){
+        $token = strtoupper(Utilities::getToken(10));
+        return view('app.orders.new', ['token' => $token]);
     }
 }

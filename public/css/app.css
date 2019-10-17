@@ -35,9 +35,21 @@ footer p{
     margin-bottom: 0;
 }
 
+.empty{
+    margin-bottom: 0;
+    text-align: center;
+    font-style: italic;
+    color: #b3b3b3;
+    padding: 5px 0;
+}
+
 .btn-primary{
     background-color: #4b7aed;
     border: none;
+}
+.btn-primary.btn-sm i{
+    margin-right: 10px;
+    font-size: 12px;
 }
 .btn-primary:hover{
     background-color: #436cd4;
@@ -94,6 +106,18 @@ footer p{
     background-color: #dadada;
 }
 
+.card-box{
+    background-color: #fff;
+    border: 1px solid #dbe8fd;
+    border-bottom-width: 2px;
+    padding: 15px 20px;
+}
+.card-box .card-title{
+    font-size: 15px;
+    font-weight: 700;
+    color: #878c94;
+}
+
 .pagination{
     padding-top: 15px;
 }
@@ -102,7 +126,7 @@ footer p{
     border-radius: 100%;
     border: none;
     background-color: transparent;
-    color: #6588c0;
+    color: #989da5;
     font-size: 14px;
     width: 33px;
     text-align: center;
@@ -425,6 +449,37 @@ footer p{
 
 .confirm-msg{
     padding-left: 20px;
+}
+
+.product-list li{
+    position: relative;
+    border: 1px solid #eaeaea;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0; 
+    padding: 12px 50px 8px 11px;
+}
+.product-list li:last-child{
+    border-bottom-width: 0;
+}
+.product-list li span{
+    display: block;
+}
+.product-list li .code{
+    line-height: 1;
+    font-size: 10px;
+}
+.product-list li .name{
+    font-weight: 600;
+    color: #4c4a4a;
+}
+.product-list li .price{
+    position: absolute;
+    right: 10px;
+    top: 18px;
+    font-weight: 700;
+    color: #7d7d7d;
+    font-size: 14px;
 }
 
 @media (min-width: 576px){
