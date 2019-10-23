@@ -9,6 +9,12 @@ class OrderDetail extends Model
     public $timestamps = false;
     protected $primaryKey = 'id_detail';
 
+    protected $fillable = [
+        'quantity',
+        'id_order',
+        'id_product'
+    ];
+
     protected $attributes = [
         'quantity' => 1
     ];

@@ -140,4 +140,22 @@ class ProductController extends Controller
 
         return ["products" => $products, "pages" => $pages, "current_page" => $p];
     }
+
+    public function getProduct($external){
+        $product = Product::with(['lots' => function($query){
+            $query->where('expiry', '>=', date('Y-m-d', time()));
+        }])->where('external_id', $external)->first();
+
+        if($product->size){
+            $product->size = json_decode($product->size);
+        }
+
+        if($product->presentation){
+            $product->presentation = json_decode($product->presentation);
+        }
+
+        $product->price = round($product->price, 2, PHP_ROUND_HALF_UP);
+
+        return ['product' => $product];
+    }
 }

@@ -23,6 +23,11 @@ footer p{
     color: #7b7b7b;
 }
 
+.table th,
+.table td{
+    vertical-align: middle;
+}
+
 .hidden{
     display: none;
 }
@@ -116,6 +121,42 @@ footer p{
     font-size: 15px;
     font-weight: 700;
     color: #878c94;
+}
+.card-box .card-box-footer{
+    padding-top: 15px;
+    border-top: 1px solid #dbe8fd;
+    margin-top: 10px;
+}
+.card-box .form-search{
+    padding: 8px 0;
+}
+
+.card-box table th,
+.card-box table td{
+    border: none;
+}
+
+.card-box table thead tr{
+    font-size: 13px;
+    text-transform: uppercase;
+    color: #989595;
+    border-top: 1px solid #f5f5f5;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.card-box table thead tr th{
+    padding-bottom: 10px;
+}
+
+.card-box table tbody tr,
+.card-box table tbody tr input{
+    font-size: 14px;
+}
+
+.card-box .empty-list{
+    margin: 0;
+    padding: 15px 0;
+    font-size: 14px;
 }
 
 .pagination{
@@ -457,7 +498,18 @@ footer p{
     border-left-width: 0;
     border-right-width: 0;
     border-top-width: 0; 
-    padding: 12px 50px 8px 11px;
+    padding: 14px 65px 10px 16px;
+    cursor: pointer;
+}
+.product-list li:hover{
+    background-color: #f5f5f5;
+}
+.product-list li.active{
+    background-color: #4b7aed;
+    border-color: transparent;
+}
+.product-list li.active span{
+    color: #fff !important;
 }
 .product-list li:last-child{
     border-bottom-width: 0;
@@ -475,11 +527,35 @@ footer p{
 }
 .product-list li .price{
     position: absolute;
-    right: 10px;
-    top: 18px;
+    right: 15px;
+    top: 20px;
     font-weight: 700;
     color: #7d7d7d;
     font-size: 14px;
+}
+
+.total_sec{
+    font-size: 24px;
+}
+.total_sec .c_tag{
+    color: #6d6d6d;
+    margin-right: 10px;
+}
+.total_sec .total{
+    font-weight: 600;
+}
+
+.c_label{
+    font-size: 14px;
+    color: #7b7b7b;
+}
+.c_control{
+    font-size: 14px;
+}
+
+.border-box{
+    padding: 20px 25px;
+    border: 1px solid #ced4da;
 }
 
 @media (min-width: 576px){

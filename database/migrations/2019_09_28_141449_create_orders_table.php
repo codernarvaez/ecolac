@@ -17,10 +17,11 @@ class CreateOrdersTable extends Migration
             $table->bigIncrements('id_order');
             $table->string('code');
             $table->text('observations')->nullable();
-            $table->string('type');
             $table->string('state')->default('pending');
             $table->uuid('external_id');
             $table->timestamps();
+            $table->unsignedBigInteger('id_person');
+            $table->foreign('id_person')->references('id_person')->on('people');
         });
     }
 

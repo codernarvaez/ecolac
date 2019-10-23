@@ -10,9 +10,7 @@ class Order extends Model
 
     protected $fillable = [
         'code',
-        'observations',
-        'type',
-        'state'
+        'observations'
     ];
 
     protected $attributes = [
