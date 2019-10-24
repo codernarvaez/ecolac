@@ -20,6 +20,10 @@ class CreateOrdersTable extends Migration
             $table->string('state')->default('pending');
             $table->uuid('external_id');
             $table->timestamps();
+
+            $table->unsignedBigInteger('customer');
+            $table->foreign('customer')->references('id_person')->on('people');
+
             $table->unsignedBigInteger('id_person');
             $table->foreign('id_person')->references('id_person')->on('people');
         });

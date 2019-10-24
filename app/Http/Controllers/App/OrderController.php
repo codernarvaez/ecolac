@@ -31,6 +31,7 @@ class OrderController extends Controller
         $order = new Order;
         $order->fill($request->only(['code', 'observations']));
         $order->external_id = Str::uuid();
+        $order->customer = $request->customer;
         $order->id_person = $auth_user->id_person;
 
         $order->save();

@@ -558,6 +558,24 @@ footer p{
     border: 1px solid #ced4da;
 }
 
+/* AUTOCOMPLETE STYLES */
+.autocomplete-suggestions { 
+    -webkit-box-sizing: border-box; 
+    -moz-box-sizing: border-box; 
+    box-sizing: border-box; 
+    border: 1px solid #999; 
+    background: #FFF; 
+    cursor: default; 
+    overflow: auto; 
+}
+.autocomplete-suggestion { padding: 5px 8px; white-space: nowrap; overflow: hidden; }
+.autocomplete-no-suggestion { padding: 2px 5px;}
+.autocomplete-selected { background: #F0F0F0; }
+.autocomplete-suggestions strong { font-weight: bold; color: #4b7aed; }
+.autocomplete-group { padding: 2px 5px; font-weight: bold; font-size: 16px; color: #000; display: block; border-bottom: 1px solid #000; }
+
+
+/* MIXINS */
 @media (min-width: 576px){
     .modal-dialog {
         max-width: 600px;

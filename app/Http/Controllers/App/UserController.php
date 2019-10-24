@@ -111,4 +111,20 @@ class UserController extends Controller
 
         return redirect('/users')->with('success', 'La contraseña del usuario ha sido restablecida.');
     }
+
+    public function getCustomers(Request $request){
+        $array = [];
+        $role = Role::where('name', 'Cliente')->first();
+        $customers = $role->people()
+                            ->whereRaw('CONCAT(firstname, " ", lastname) regexp "' . $request->searchString . '" or dni regexp "' . $request->searchString . '"')
+                            ->take(5)
+                            ->get();
+
+        foreach ($customers as $customer) {
+            $item = ['value' => ($customer->firstname . ' ' . $customer->lastname), 'data' => $customer->id_person];
+            array_push($array, $item);
+        }
+        
+        return ["suggestions" => $array];
+    }
 }

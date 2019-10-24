@@ -17,6 +17,24 @@
 </div>
 
 <div class="row">
+    <div class="col-12">        
+        <div class="border-box mb-4">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group mb-0">
+                        <div class="form-row align-items-center">
+                            <div class="col-2">
+                                <label for="customer" class="mb-0 c_label">Elegir Cliente:</label>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control c_control" id="autocomplete">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="col-4">
         <div class="card-box">
             <h6 class="card-title">Listado de Productos</h6>
@@ -41,6 +59,7 @@
     <div class="col-8">
         <form action="{{ route('add-order') }}" method="post">
             @csrf
+            <input type="hidden" name="customer" id="customer">
             <div class="card-box mb-4">
                 <h6 class="card-title">Detalles del Pedido</h6>
                 <input type="hidden" name="code" value="{{ $token }}">
@@ -243,6 +262,16 @@
         }
 
         e.preventDefault();        
+    });
+</script>
+<script src="/js/jquery.autocomplete.min.js"></script>
+<script>
+    $('#autocomplete').autocomplete({
+        serviceUrl: '{{ route("list-customers") }}',
+        paramName: 'searchString',
+        onSelect: function (suggestion) {
+            $('#customer').val(suggestion.data);        
+        }
     });
 </script>
 @endsection

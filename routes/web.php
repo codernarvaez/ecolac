@@ -26,6 +26,7 @@ Route::post('/users/add', 'App\UserController@addUser')->name('add-user');
 Route::post('/users/enable', 'App\UserController@enableAccount')->name('enable-user');
 Route::post('/users/disable', 'App\UserController@disableAccount')->name('disable-user');
 Route::post('/users/restore', 'App\UserController@resetPassword')->name('restore-user');
+Route::get('/users/ajax/customers', 'App\UserController@getCustomers')->name('list-customers');
 Route::put('/users/edit', 'App\UserController@editUser')->name('edit-user');
 
 // ************** Orders **************
