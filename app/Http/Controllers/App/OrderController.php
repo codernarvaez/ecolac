@@ -17,13 +17,26 @@ class OrderController extends Controller
     }
 
     public function showPageList(){
-        $orders = Order::orderBy('id_order','desc')->take(20)->get();
+        $orders = Order::where('state', '!=', 'Despachado')->orderBy('id_order','desc')->take(20)->get();
         return view('app.orders.list', ['orders' => $orders]);
     }
 
     public function showAddOrder(){
         $token = strtoupper(Utilities::getToken(10));
         return view('app.orders.new', ['token' => $token]);
+    }
+    
+    public function viewOrder($external){
+        $order = Order::with(['details', 'seller', 'client'])->where('external_id', $external)->first();
+
+        $details_array = [];
+        
+        foreach ($order->details as $detail) {
+            $item = ["product" => $detail->product->external_id, "price" => $detail->product->price, "qty" => $detail->quantity];
+            array_push($details_array, $item);
+        }
+
+        return view('app.orders.complete', ['order' => $order, 'array' => json_encode($details_array)]);
     }
 
     public function addOrder(Request $request){
@@ -47,5 +60,13 @@ class OrderController extends Controller
         $order->details()->saveMany($details);
 
         return redirect('/orders/new')->with('success', 'La orden ha sido guardada correctamente.');
+    }
+
+    public function cancelOrder(Request $request){
+        $order = Order::where('external_id', $request->external)->first();
+        $order->state = "Cancelado";
+        $order->save();
+
+        return redirect('/orders')->with('success', 'La orden ha sido cancelada correctamente.');
     }
 }

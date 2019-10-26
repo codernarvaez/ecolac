@@ -54,7 +54,6 @@
                             <li class="menu-item list-inline-item {{ (request()->is('users*')) ? 'active' : '' }}"><a href="{{ route('users') }}"><i class="fas fa-users"></i>Usuarios</a></li>
                             <li class="menu-item list-inline-item {{ (request()->is('orders*')) ? 'active' : '' }}"><a href="{{ route('orders') }}"><i class="fas fa-clipboard-list"></i>Pedidos</a></li>
                             <li class="menu-item list-inline-item {{ (request()->is('sales*')) ? 'active' : '' }}"><a href="{{ route('sales') }}"><i class="fas fa-coins"></i>Ventas</a></li>
-                            <li class="menu-item list-inline-item {{ (request()->is('reports*')) ? 'active' : '' }}"><a href="{{ route('reports') }}"><i class="fas fa-archive"></i>Reportes</a></li>
                             <li class="menu-item list-inline-item {{ (request()->is('config*')) ? 'active' : '' }}"><a href="{{ route('config') }}"><i class="fas fa-cog"></i>Configuración</a></li>
                         </ul>
                     </nav>

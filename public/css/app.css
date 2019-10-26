@@ -410,6 +410,19 @@ footer p{
     color: #ababab;
     font-style: italic;
 }
+.table-body .row .tag{
+    display: inline-block;
+    font-size: 12px;
+    border: 1px solid #616161;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #616161;
+    cursor: default;
+}
+.table-body .row .tag.red{
+    border-color: #ec6868;
+    color: #ec6868;
+}
 
 .divider-line{
     height: 1px;

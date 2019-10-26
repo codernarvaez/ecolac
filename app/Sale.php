@@ -4,22 +4,23 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model
+class Sale extends Model
 {
-    protected $primaryKey = 'id_order';
+    protected $primaryKey = 'id_sale';
 
     protected $fillable = [
         'code',
-        'observations'
+        'total',
+        'payment_method'
     ];
 
     protected $attributes = [
-        'state' => 'Pendiente'
+        'paid' => false
     ];
 
     public function details()
     {
-        return $this->hasMany('App\OrderDetail', 'id_order', 'id_order');
+        return $this->hasMany('App\SaleDetail', 'id_detail', 'id_detail');
     }
 
     public function seller()
@@ -31,5 +32,4 @@ class Order extends Model
     {
         return $this->belongsTo('App\Person', 'customer');
     }
-    
 }

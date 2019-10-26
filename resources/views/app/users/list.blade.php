@@ -25,21 +25,6 @@
             </div>
         </form>
     </div>
-    <!--<div class="col-5"></div>
-    <div class="col-3">
-        <form action="" method="post" class="form-search">
-            <div class="form-group">
-                <select name="enabled" id="enabled" class="form-control">
-                    <option disabled selected>Todos</option>
-                    <option value="Administrador">Administradores</option>
-                    <option value="Cliente">Clientes</option>
-                    <option value="Vendedor">Vendedores</option>
-                    <option value="Vendedor">Repartidores</option>
-                    <option value="Auditor">Auditores</option>
-                </select>
-            </div>
-        </form>
-    </div>-->
 </div>
 
 <div class="row">
@@ -164,7 +149,7 @@
     </div>
 </div>
 
-<!-- Modal Products -->
+<!-- Modal Users -->
 <div class="modal fade" id="user-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">

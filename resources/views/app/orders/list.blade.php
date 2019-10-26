@@ -41,21 +41,24 @@
                 @foreach ($orders as $order)
                 <div class="row align-items-center">
                     <div class="col-2">
+                        @if ($order->state == "Pendiente")
                         <div class="dropdown">
                             <a class="btn btn-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-ellipsis-v"></i>
                             </a>                            
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <button class="dropdown-item" data-toggle="modal" data-target="#user-modal">Cancelar</button>
-                                <button class="dropdown-item" data-toggle="modal" data-target="#disable-modal">Eliminar</button>
+                                <button class="dropdown-item" data-toggle="modal" data-target="#cancel-modal" onclick="setExternal('{{ $order->external_id }}')">Cancelar</button>
                             </div>
                         </div>
-                        <a href="#" class="btn btn-outline-primary btn-sm">Detalles</a>
+                        <a href="{{  route('view-order', ["external" => $order->external_id ]) }}" class="btn btn-outline-primary btn-sm">Despachar</a>   
+                        @else
+                        <span style="font-style: italic;display: block; text-align:center;">(Solo lectura)</span>
+                        @endif                        
                     </div>
-                    <div class="col-2">{{ $order->code }}</div>
-                    <div class="col-4 truncate">{{ $order->client->firstname. ' '. $order->client->lastname }}</div>
+                    <div class="col-2">#{{ $order->code }}</div>
+                    <div class="col-4 truncate">{{ $order->client->firstname .' '. $order->client->lastname }}</div>
                     <div class="col-2">{{ date("d/m/Y", strtotime($order->created_at)) }}</div>
-                    <div class="col-2">{{ ($order->state == "pending") ? 'Pendiente':'' }}</div>
+                    <div class="col-2"><span class="tag {{ ($order->state == "Cancelado") ? 'red':'' }}">{{ $order->state }}</span></div>
                 </div>
                 @endforeach
                 
@@ -71,57 +74,23 @@
     </div>
 </div>
 
-<!-- Modal Order -->
-<div class="modal fade" id="order-modal" tabindex="-1" role="dialog">
+<!-- Modal Cancel -->
+<div class="modal fade" id="cancel-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Nuevo Pedido</h5>
+                <h5 class="modal-title">Cancelar pedido</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="" method="post">
+                <p class="confirm-msg">¿Está seguro/a que desea realizar esta acción?</p>
+                <form action="{{ route('cancel-order') }}" method="POST">
                     @csrf
-                    <div class="form-divider">
-                        <span class="content">Información general</span>
-                    </div>
-                    <div class="form-group row align-items-center">
-                        <label for="code" class="col-3">Código</label>
-                        <div class="col-4">
-                            <input type="text" name="code" id="code" class="form-control" value=""  autocomplete="off" readonly>
-                        </div>
-                    </div>
-                    <div class="form-group row align-items-center">
-                        <label for="type" class="col-3">Tipo</label>
-                        <div class="col">
-                            <select name="type" id="type" class="form-control">
-                                <option value="Alimentos">Tipo I</option>
-                                <option value="Tecnología">Tipo II</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row align-items-center">
-                        <label for="state" class="col-3">Estado</label>
-                        <div class="col">
-                            <select name="state" id="state" class="form-control">
-                                <option value="pending">Pendiente</option>
-                                <option value="in_process">En proceso</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="observations" class="col-3">Observaciones</label>
-                        <div class="col">
-                            <textarea class="form-control" id="observations" name="observations" rows="3" autocomplete="off"></textarea>
-                        </div>
-                    </div>
-                    <div class="form-divider">
-                        <span class="content">Detalle del pedido</span>
-                    </div>
-                    <div class="form-group text-right">
-                        <button type="submit" class="btn btn-primary mr-2">Guardar</button>
+                    <input type="hidden" name="external" id="external">
+                    <div class="form-group text-right mt-4">
+                        <button type="submit" class="btn btn-primary mr-2">Confirmar</button>
                         <button type="reset" class="btn btn-light" data-dismiss="modal">Cancelar</button>
                     </div>
                 </form>
@@ -129,4 +98,12 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+function setExternal(external){
+    $('#external').val(external);    
+}
+</script>
 @endsection
