@@ -30,15 +30,16 @@ Route::get('/users/ajax/customers', 'App\UserController@getCustomers')->name('li
 Route::put('/users/edit', 'App\UserController@editUser')->name('edit-user');
 
 // ************** Orders **************
-Route::get('/orders', 'App\OrderController@showPageList')->name('orders');
+Route::get('/orders/{p?}', 'App\OrderController@showPageList')->name('orders');
 Route::get('/orders/new', 'App\OrderController@showAddOrder')->name('new-order');
 Route::get('/orders/view/{external}', 'App\OrderController@viewOrder')->name('view-order');
 Route::post('/orders/add', 'App\OrderController@addOrder')->name('add-order');
 Route::post('/orders/cancel', 'App\OrderController@cancelOrder')->name('cancel-order');
 
 // ************** Sales **************
-Route::get('/sales', 'App\SaleController@showPageList')->name('sales');
+Route::get('/sales/{p?}', 'App\SaleController@showPageList')->name('sales');
 Route::post('/sales/add', 'App\SaleController@addSale')->name('add-sale');
+Route::post('/sales/paid', 'App\SaleController@setPaid')->name('paid-sale');
 
 // ************** Reports **************
 Route::get('/reports', 'App\ReportController@showPageList')->name('reports');

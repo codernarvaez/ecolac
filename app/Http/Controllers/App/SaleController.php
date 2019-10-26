@@ -17,8 +17,20 @@ class SaleController extends Controller
         $this->middleware('auth');
     }
 
-    public function showPageList(){
-        return view('app.sales.list');
+    public function showPageList($p = 1){
+        $count = Sale::all()->count();
+            
+        if($p > 1){
+            $skip = ($p - 1) * 20;
+            $sales = Sale::orderBy('id_sale','desc')
+                    ->skip($skip)
+                    ->take(20)
+                    ->get();
+        }else{
+            $sales = Sale::orderBy('id_sale','desc')->take(20)->get();
+        }
+        
+        return view('app.sales.list', ["sales" => $sales, 'count' => $count, 'p' => $p]);
     }
 
     public function addSale(Request $request){
@@ -50,5 +62,13 @@ class SaleController extends Controller
         $order->save();
 
         return redirect('/orders')->with('success', 'La orden ha sido despachada correctamente.');
+    }
+
+    public function setPaid(Request $request){
+        $sale = Sale::where('external_id', $request->external)->first();
+        $sale->paid = true;
+        $sale->save();
+
+        return redirect('/sales')->with('success', 'La venta ha sido pagada correctamente.');
     }
 }

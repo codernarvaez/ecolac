@@ -16,9 +16,24 @@ class OrderController extends Controller
         $this->middleware('auth');
     }
 
-    public function showPageList(){
-        $orders = Order::where('state', '!=', 'Despachado')->orderBy('id_order','desc')->take(20)->get();
-        return view('app.orders.list', ['orders' => $orders]);
+    public function showPageList($p = 1){
+        $count = Order::where('state', '!=', 'Despachado')->count();
+
+        if($p > 1){
+            $skip = ($p - 1) * 20;
+            $orders = Order::where('state', '!=', 'Despachado')
+                ->orderBy('id_order','desc')
+                ->skip($skip)
+                ->take(20)
+                ->get();
+        }else{
+            $orders = Order::where('state', '!=', 'Despachado')
+                ->orderBy('id_order','desc')
+                ->take(20)
+                ->get();
+        }
+        
+        return view('app.orders.list', ['orders' => $orders, 'count' => $count, 'p' => $p]);
     }
 
     public function showAddOrder(){
