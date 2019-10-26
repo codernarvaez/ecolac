@@ -17,7 +17,8 @@ class OrderController extends Controller
     }
 
     public function showPageList(){
-        return view('app.orders.list');
+        $orders = Order::orderBy('id_order','desc')->take(20)->get();
+        return view('app.orders.list', ['orders' => $orders]);
     }
 
     public function showAddOrder(){

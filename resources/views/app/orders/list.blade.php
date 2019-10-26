@@ -32,18 +32,40 @@
         <div class="row table-head">
             <div class="col-2"></div>
             <div class="col-2">Codigo</div>
+            <div class="col-4">Cliente</div>
             <div class="col-2">Añadido el</div>
-            <div class="col-2">Modificado el</div>
-            <div class="col-2">Tipo</div>
             <div class="col-2">Estado</div>
         </div>
         <div class="row table-body">
             <div class="col">
+                @foreach ($orders as $order)
+                <div class="row align-items-center">
+                    <div class="col-2">
+                        <div class="dropdown">
+                            <a class="btn btn-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </a>                            
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <button class="dropdown-item" data-toggle="modal" data-target="#user-modal">Cancelar</button>
+                                <button class="dropdown-item" data-toggle="modal" data-target="#disable-modal">Eliminar</button>
+                            </div>
+                        </div>
+                        <a href="#" class="btn btn-outline-primary btn-sm">Detalles</a>
+                    </div>
+                    <div class="col-2">{{ $order->code }}</div>
+                    <div class="col-4 truncate">{{ $order->client->firstname. ' '. $order->client->lastname }}</div>
+                    <div class="col-2">{{ date("d/m/Y", strtotime($order->created_at)) }}</div>
+                    <div class="col-2">{{ ($order->state == "pending") ? 'Pendiente':'' }}</div>
+                </div>
+                @endforeach
+                
+                @if (count($orders) == 0)
                 <div class="row align-items-center">
                     <div class="col-12">
                         <p class="empty">No se han encontrado elementos para esta lista.</p>
                     </div>
                 </div>
+                @endif                
             </div>
         </div>
     </div>

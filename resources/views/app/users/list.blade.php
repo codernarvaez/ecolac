@@ -59,8 +59,7 @@
                         <div class="dropdown">
                             <a class="btn btn-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-ellipsis-v"></i>
-                            </a>
-                            
+                            </a>                            
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                 <button class="dropdown-item" data-toggle="modal" data-target="#user-modal" onclick="editUser({ 'user': {{ $user }}, 'role': {{ $user->role }}, 'account': {{ $user->account }}, 'location': {{ ($user->location) ? $user->location : 'null' }}})">Editar</button>
                                 <div class="dropdown-divider"></div>
