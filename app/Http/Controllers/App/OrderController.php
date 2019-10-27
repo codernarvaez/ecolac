@@ -4,11 +4,14 @@ namespace App\Http\Controllers\App;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Utils\Utilities;
 
 use App\Order;
 use App\OrderDetail;
+
+use App\Person;
 
 class OrderController extends Controller
 {
@@ -33,7 +36,32 @@ class OrderController extends Controller
                 ->get();
         }
         
-        return view('app.orders.list', ['orders' => $orders, 'count' => $count, 'p' => $p]);
+        return view('app.orders.list', ['orders' => $orders, 'count' => $count, 'p' => $p, 'search' => '']);
+    }
+
+    public function searchOrders(Request $request, $p = 1){
+        if(strlen($request->text) >= 3){
+            $count = Order::whereRaw('code regexp "'. $request->text .'" and state != "Despachado"')->count();
+            
+            if($p > 1){
+                $skip = ($p - 1) * 20;
+                $orders = Order::whereRaw('code regexp "'. $request->text .'" and state != "Despachado"')
+                    ->orderBy('id_order','desc')
+                    ->skip($skip)
+                    ->take(20)
+                    ->get();
+            }else{
+                $orders = Order::whereRaw('code regexp "'. $request->text .'" and state != "Despachado"')
+                    ->orderBy('id_order','desc')
+                    ->take(20)
+                    ->get();
+            }
+            
+            return view('app.orders.list', ['orders' => $orders, 'count' => $count, 'p' => $p, 'search' => $request->text]);
+        }else{
+            return redirect()->route('orders');
+        }
+        
     }
 
     public function showAddOrder(){

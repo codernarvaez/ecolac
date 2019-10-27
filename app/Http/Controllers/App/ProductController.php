@@ -29,7 +29,32 @@ class ProductController extends Controller
         }
         
         $token = strtoupper(Utilities::getToken(8));
-        return view('app.products.list', ['products' => $products, 'token' => $token, 'count' => $count, 'p' => $p]);
+        return view('app.products.list', ['products' => $products, 'token' => $token, 'count' => $count, 'p' => $p, 'search' => '']);
+    }
+
+    public function searchProducts(Request $request, $p = 1){
+        if(strlen($request->text) >= 3){
+            $count = Product::whereRaw('name regexp "'. $request->text .'"')->count();
+
+            if($p > 1){
+                $skip = ($p - 1) * 20;
+                $products = Product::whereRaw('name regexp "'. $request->text .'"')
+                                    ->orderBy('id_product','desc')
+                                    ->skip($skip)
+                                    ->take(20)
+                                    ->get();
+            }else{
+                $products = Product::whereRaw('name regexp "'. $request->text .'"')
+                                    ->orderBy('id_product','desc')
+                                    ->take(20)
+                                    ->get();
+            }
+
+            $token = strtoupper(Utilities::getToken(8));
+            return view('app.products.list', ['products' => $products, 'token' => $token, 'count' => $count, 'p' => $p, 'search' =>  $request->text]);
+        }else{
+            return redirect()->route('products');
+        }        
     }
 
     public function showPageDetail($external){

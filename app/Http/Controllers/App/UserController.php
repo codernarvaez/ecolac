@@ -35,7 +35,32 @@ class UserController extends Controller
                     ->get();
         }
         
-        return view('app.users.list', ['users' => $people, 'count' => $count, 'p' => $p]);
+        return view('app.users.list', ['users' => $people, 'count' => $count, 'p' => $p, 'search' => '']);
+    }
+
+    public function searchUsers(Request $request, $p = 1){
+        if(strlen($request->text) >= 3){
+            $auth_user = auth()->user()->person; 
+            $count = Person::whereRaw('(CONCAT(firstname, " ", lastname) regexp "' . $request->text . '" or dni regexp "' . $request->text . '") and id_person != '. $auth_user->id_person)->count();
+
+            if($p > 1){
+                $skip = ($p - 1) * 20;
+                $people = Person::whereRaw('(CONCAT(firstname, " ", lastname) regexp "' . $request->text . '" or dni regexp "' . $request->text . '") and id_person != '. $auth_user->id_person)
+                        ->orderBy('id_person','desc')
+                        ->skip($skip)
+                        ->take(20)
+                        ->get();
+            }else{
+                $people = Person::whereRaw('(CONCAT(firstname, " ", lastname) regexp "' . $request->text . '" or dni regexp "' . $request->text . '") and id_person != '. $auth_user->id_person)
+                        ->orderBy('id_person','desc')
+                        ->take(20)
+                        ->get();
+            }
+
+            return view('app.users.list', ['users' => $people, 'count' => $count, 'p' => $p, 'search' => $request->text]);
+        }else{
+            return redirect()->route('users');
+        }        
     }
 
     public function addUser(Request $request){

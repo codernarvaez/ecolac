@@ -30,7 +30,29 @@ class SaleController extends Controller
             $sales = Sale::orderBy('id_sale','desc')->take(20)->get();
         }
         
-        return view('app.sales.list', ["sales" => $sales, 'count' => $count, 'p' => $p]);
+        return view('app.sales.list', ["sales" => $sales, 'count' => $count, 'p' => $p, 'search' => '']);
+    }
+
+    public function searchSales(Request $request, $p = 1){
+        if(strlen($request->text) >= 3){
+            $count = Sale::where('code', 'regexp', $request->text)->count();
+
+            if($p > 1){
+                $skip = ($p - 1) * 20;
+                $sales = Sale::where('code', 'regexp', $request->text)
+                        ->orderBy('id_sale','desc')
+                        ->skip($skip)
+                        ->take(20)
+                        ->get();
+            }else{
+                $sales = Sale::where('code', 'regexp', $request->text)->orderBy('id_sale','desc')->take(20)->get();
+            }
+            
+            return view('app.sales.list', ["sales" => $sales, 'count' => $count, 'p' => $p, 'search' => $request->text]);
+        }else{
+            return redirect()->route('sales');
+        }
+        
     }
 
     public function addSale(Request $request){

@@ -18,9 +18,9 @@
 
 <div class="row">
     <div class="col-4">
-        <form action="" method="post" class="form-search">
+        <form action="{{ route('search-orders') }}" method="get" class="form-search">
             <div class="form-group">
-                <input type="text" name="search" id="search" class="form-control icon" placeholder="Buscar" autocomplete="off">
+                <input type="text" name="text" id="search" class="form-control icon" placeholder="Buscar" autocomplete="off" value="{{ $search }}">
                 <i class="fas fa-search"></i>
             </div>
         </form>
@@ -52,7 +52,7 @@
                         </div>
                         <a href="{{  route('view-order', ["external" => $order->external_id ]) }}" class="btn btn-outline-primary btn-sm">Despachar</a>   
                         @else
-                        <span style="font-style: italic;display: block; text-align:center;">(Solo lectura)</span>
+                        <span style="font-style: italic;display: block; text-align:center;color: #989898;">(Solo lectura)</span>
                         @endif                        
                     </div>
                     <div class="col-2">#{{ $order->code }}</div>
@@ -83,14 +83,14 @@
                         <ul class="pagination mb-0">
                             @if ($p != 1)
                             <li class="page-item prev">
-                                <a class="page-link" href="{{ route('orders', ['p' => $p - 1 ]) }}" aria-label="Anterior">
+                                <a class="page-link" href="{{ ($search) ? route('search-orders', ['p' => $p - 1 ]).'?text='.$search:route('orders', ['p' => $p - 1 ]) }}" aria-label="Anterior">
                                     <span aria-hidden="true">&laquo;</span>
                                 </a>
                             </li>
                             
                             @if ($pages > 5)
                             <li class="page-item">
-                                <a class="page-link" href="{{ route('orders', ['p' => 1 ]) }}">1</a>
+                                <a class="page-link" href="{{ ($search) ? route('search-orders', ['p' => 1 ]).'?text='.$search:route('orders', ['p' => 1 ]) }}">1</a>
                             </li>
                             <li class="page-item">
                                 <span>...</span>
@@ -101,16 +101,16 @@
 
                             @if ($n_pages >= 5)
                                 @for ($i = $p; $i <= $p + 4; $i++)
-                                <li class="page-item {{ ($i == $p) ? 'active':'' }}" {{ ($i == $p) ? 'aria-current="page"':'' }}><a class="page-link" href="{{ route('orders', ['p' => $i ]) }}">{{ $i }}</a></li>
+                                <li class="page-item {{ ($i == $p) ? 'active':'' }}" {{ ($i == $p) ? 'aria-current="page"':'' }}><a class="page-link" href="{{ ($search) ? route('search-orders', ['p' => $i ]).'?text='.$search:route('orders', ['p' => $i ]) }}">{{ $i }}</a></li>
                                 @endfor                             
                             @else
                                 @if ($pages > 5)
                                     @for ($i = $pages - 5; $i <= $pages; $i++)
-                                    <li class="page-item {{ ($i == $p) ? 'active':'' }}" {{ ($i == $p) ? 'aria-current="page"':'' }}><a class="page-link" href="{{ route('orders', ['p' => $i ]) }}">{{ $i }}</a></li>
+                                    <li class="page-item {{ ($i == $p) ? 'active':'' }}" {{ ($i == $p) ? 'aria-current="page"':'' }}><a class="page-link" href="{{ ($search) ? route('search-orders', ['p' => $i ]).'?text='.$search:route('orders', ['p' => $i ]) }}">{{ $i }}</a></li>
                                     @endfor    
                                 @else
                                     @for ($i = 1; $i <= $pages; $i++)
-                                    <li class="page-item {{ ($i == $p) ? 'active':'' }}" {{ ($i == $p) ? 'aria-current="page"':'' }}><a class="page-link" href="{{ route('orders', ['p' => $i ]) }}">{{ $i }}</a></li>
+                                    <li class="page-item {{ ($i == $p) ? 'active':'' }}" {{ ($i == $p) ? 'aria-current="page"':'' }}><a class="page-link" href="{{ ($search) ? route('search-orders', ['p' => $i ]).'?text='.$search:route('orders', ['p' => $i ]) }}">{{ $i }}</a></li>
                                     @endfor 
                                 @endif
                                                             
@@ -123,12 +123,12 @@
                                 <span>...</span>
                             </li>
                             <li class="page-item">
-                                <a class="page-link" href="{{ route('orders', ['p' => $pages ]) }}">{{ $pages }}</a>
+                                <a class="page-link" href="{{ ($search) ? route('search-orders', ['p' => $pages ]).'?text='.$search:route('orders', ['p' => $pages ]) }}">{{ $pages }}</a>
                             </li>  
                             @endif
                             
                             <li class="page-item next">
-                                <a class="page-link" href="{{ route('orders', ['p' => $p + 1 ]) }}" aria-label="Siguiente">
+                                <a class="page-link" href="{{ ($search) ? route('search-orders', ['p' => $p + 1 ]).'?text='.$search:route('orders', ['p' => $p + 1 ]) }}" aria-label="Siguiente">
                                     <span aria-hidden="true">&raquo;</span>
                                 </a>
                             </li> 
