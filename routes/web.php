@@ -7,6 +7,7 @@ Route::get('/', function () {
 
 // ************** Authentication **************
 Route::get('/login', 'Auth\LoginController@showLogin');
+Route::get('/register', 'Auth\RegisterController@showRegister');
 Route::post('/login', 'Auth\LoginController@login')->name('login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
@@ -28,6 +29,8 @@ Route::post('/users/add', 'App\UserController@addUser')->name('add-user');
 Route::post('/users/enable', 'App\UserController@enableAccount')->name('enable-user');
 Route::post('/users/disable', 'App\UserController@disableAccount')->name('disable-user');
 Route::post('/users/restore', 'App\UserController@resetPassword')->name('restore-user');
+Route::post('/users/auth/edit', 'App\UserController@editUserInfo')->name('edit-auth-user');
+Route::post('/users/auth/password', 'App\UserController@editUserPass')->name('edit-pass-user');
 Route::get('/users/ajax/customers', 'App\UserController@getCustomers')->name('list-customers');
 Route::put('/users/edit', 'App\UserController@editUser')->name('edit-user');
 

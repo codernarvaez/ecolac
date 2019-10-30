@@ -69,6 +69,7 @@ footer p{
 }
 .btn-outline-primary:hover{
     background-color: #4b7aed;
+    border-color: #4b7aed;
     color: #fff;
 }
 .alert .close{
@@ -78,6 +79,12 @@ footer p{
     color: #fff;
     border: none;
     background-color: #5fc776;
+    border-radius: 0;
+}
+.alert-danger{
+    color: #fff;
+    border: none;
+    background-color: #ff4e5e;
     border-radius: 0;
 }
 
@@ -272,6 +279,10 @@ footer p{
     background-color: transparent;
     font-weight: 600;
     font-size: 15px;
+}
+
+.main-menu .menu-item{
+    padding-top: 3px;
 }
 
 .main-menu .menu-item.active a{

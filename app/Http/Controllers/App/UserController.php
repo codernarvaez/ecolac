@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\App;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 
@@ -151,5 +152,35 @@ class UserController extends Controller
         }
         
         return ["suggestions" => $array];
+    }
+
+    public function editUserInfo(Request $request){
+        $person = Person::where('id_person', auth()->user()->person->id_person)->first();
+
+        $person->firstname = $request->firstname;
+        $person->lastname = $request->lastname;
+        $person->phone = $request->phone;
+        $person->email = $request->email;
+
+        $person->save();
+
+        return redirect()->route($request->current_route)->with('success', 'La información de la cuenta ha sido modificada.');
+    }
+
+    public function editUserPass(Request $request){
+        $credentials = $this->validate(request(), [
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ]);
+
+        if(Auth::attempt($credentials)){
+            $account = Account::where('id_account', auth()->user()->id_account)->first();
+            $account->password = Hash::make($request->new_password);
+            $account->save();
+
+            return redirect()->route($request->current_route)->with('success', 'La contraseña de la cuenta ha sido modificada.');
+        }
+
+        return back()->with('error', 'La contraseña ingresada es incorrecta');
     }
 }

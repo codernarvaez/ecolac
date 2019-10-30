@@ -1,0 +1,111 @@
+html{
+    position: relative;
+    font-family: 'Nunito', sans-serif;
+    height: 100%;
+    background-color: #f9f9fb;
+}
+
+body{
+    position: relative;
+    background-color: #f9f9fb;
+    padding: 50px 0;
+}
+
+.btn-primary{
+    background-color: #4b7aed;
+    padding: 10px;
+    border: none;
+}
+.btn-lg{
+    padding: 12px 25px;
+}
+.btn-primary:hover{
+    background-color: #4871d8;
+}
+
+.form-control{
+    height: auto;
+    padding: 12px 15px;
+    border-color: #eaeaea;
+}
+.form-control:focus,
+.form-control:active{    
+    box-shadow: none;
+    border-color: #4b7aed;
+}
+
+.form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #bdbdbd;
+    opacity: 1; /* Firefox */
+}
+
+.form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #bdbdbd;
+}
+
+.form-control::-ms-input-placeholder { /* Microsoft Edge */
+    color: #bdbdbd;
+}
+
+.form-control:disabled, .form-control[readonly]{
+    background-color: #f1f1f1;
+}
+
+label{
+    color: #717171;
+}
+
+h2{
+    font-size: 30px;
+    color: #676767;
+    margin-bottom: 5px;
+}
+.sub{
+    font-size: 14px;
+    color: #a5a5a5;
+}
+.copyright{
+    font-size: 14px;
+    color: #9e9e9e;
+}
+
+.alert-danger{
+    color: #fff;
+    background-color: #ff5665;
+    border: none;
+}
+
+.close,
+.close:hover{
+    color: #fff;
+}
+
+form{
+    width: 100%;
+}
+
+.text-divider{
+    position: relative;
+    padding: 13px 0;
+}
+.text-divider:after{
+    content: '';
+    position: absolute;
+    top: 26px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #e0e0e0;
+    z-index: 1;
+}
+.text-divider span{
+    display: inline-block;
+    font-size: 13px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #676767;
+    background-color: #f9f9fb;
+    z-index: 2;
+    position: relative;
+    padding: 0 15px 0 0;
+}
