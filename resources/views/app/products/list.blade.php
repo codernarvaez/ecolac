@@ -41,6 +41,14 @@
                 @foreach ($products as $product)
                 <div class="row align-items-center">
                     <div class="col-2">
+                        <div class="dropdown">
+                            <a class="btn btn-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </a>                            
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <button class="dropdown-item" data-toggle="modal" data-target="#delete-modal" onclick="setExternal('{{ $product->external_id }}')">Eliminar</button>
+                            </div>
+                        </div>
                         <a href="/products/view/{{ $product->external_id }}" class="btn btn-outline-primary btn-sm">Detalles</a>
                     </div>
                     <div class="col-4">
@@ -54,10 +62,17 @@
                         {{ $product->type }}
                     </div>
                     <div class="col-2">
-                        $ {{ $product->price }}
+                        $ {{ number_format((float)$product->price, 2, '.', '') }}
                     </div>
                 </div>
                 @endforeach
+                @if (count($products) == 0)
+                <div class="row align-items-center">
+                    <div class="col-12">
+                        <p class="empty">No se han encontrado elementos para esta lista.</p>
+                    </div>
+                </div>
+                @endif   
             </div>
         </div>
         <div class="row table-footer align-items-center">
@@ -220,15 +235,6 @@
                             </small>
                         </div>
                     </div>
-                    <div class="form-group row align-items-center mb-4">
-                        <label class="col-3">Expiración</label>
-                        <div class="col">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="expires" name="expires">
-                                <label class="custom-control-label" for="expires">Este producto expira</label>
-                            </div>
-                        </div>
-                    </div>
                     <div class="form-group text-right">
                         <button type="submit" class="btn btn-primary mr-2">Guardar</button>
                         <button type="reset" class="btn btn-light" data-dismiss="modal">Cancelar</button>
@@ -238,4 +244,37 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Delete -->
+<div class="modal fade" id="delete-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Eliminar producto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="confirm-msg">¿Está seguro/a que desea realizar esta acción?</p>
+                <form action="{{ route('delete-product') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="external" id="external">
+                    <div class="form-group text-right mt-4">
+                        <button type="submit" class="btn btn-primary mr-2">Confirmar</button>
+                        <button type="reset" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
+@section('scripts')
+<script>
+    function setExternal(external){
+        $('#external').val(external);    
+    }
+</script>
 @endsection

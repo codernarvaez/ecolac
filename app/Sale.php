@@ -20,7 +20,7 @@ class Sale extends Model
 
     public function details()
     {
-        return $this->hasMany('App\SaleDetail', 'id_detail', 'id_detail');
+        return $this->hasMany('App\SaleDetail', 'id_sale', 'id_sale');
     }
 
     public function seller()

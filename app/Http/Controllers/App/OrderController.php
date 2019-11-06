@@ -5,6 +5,9 @@ namespace App\Http\Controllers\App;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+
+use App\Mail\OrderStatus;
 use App\Http\Controllers\Controller;
 use App\Utils\Utilities;
 
@@ -101,6 +104,11 @@ class OrderController extends Controller
         }
 
         $order->details()->saveMany($details);
+
+        $customer = Person::where('id_person', $order->customer)->first();
+
+        Mail::to($customer->email)
+                ->queue(new OrderStatus($order));
 
         return redirect('/orders/new')->with('success', 'La orden ha sido guardada correctamente.');
     }

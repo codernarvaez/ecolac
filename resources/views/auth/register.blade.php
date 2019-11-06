@@ -11,23 +11,44 @@
     <title>Registro | Online Shop</title>
 </head>
 <body>
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col text-center">
+                    <img src="/img/logo.png" alt="EcolacShop">
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container">
-        <div class="row align-items-center mb-4">
-            <div class="col-12">
+        <div class="row align-items-center mb-5">
+            <div class="col-8">
                 <div class="login-box">
                     <div class="login-form">
                         <div class="login-header">
                             <h2>Formulario de registro</h2>
-                            <p class="sub mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare semper tempor.</p>
+                            <p class="sub mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare semper tempor.</p>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="col-4 text-right">
+                <span class="text-login mr-2">¿Ya tienes cuenta?</span>
+                <a href="/login" class="btn btn-primary btn-login">Inicia sesión</a>
+            </div>
         </div> 
-        <form method="POST" action="{{ route('login') }}">
-            <div class="row mb-4">            
+        <form method="POST" action="{{ route('register-user') }}">
+            <div class="row mb-4">    
+                <div class="col-12">
+                    @if (session('error'))
+                    <div class="alert alert-danger text-center mb-5" role="alert">
+                        {{ session('error') }}
+                    </div>
+                    @endif
+                </div>        
                 <div class="col-6">
                     @csrf
+                    <input type="hidden" name="role" value="Cliente">
                     <div class="form-group">
                         <div class="form-row align-items-center">
                             <label for="dni" class="col-3 mb-0">Identificación:</label>

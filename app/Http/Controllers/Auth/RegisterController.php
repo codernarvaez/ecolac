@@ -7,6 +7,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+
+use App\Role;
+use App\Person;
+use App\Location;
+use App\Account;
 
 class RegisterController extends Controller
 {
@@ -28,7 +34,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/login';
 
     /**
      * Create a new controller instance.
@@ -42,5 +48,31 @@ class RegisterController extends Controller
     
     public function showRegister(){
         return view('auth.register');
+    }
+
+    public function registerUser(Request $request){
+        if($request->password != $request->c_password){
+            return redirect('/register')->with('error', 'Las contraseñas ingresadas no coinciden');
+        }
+
+        $role = Role::where('name', $request->role)->first();
+
+        $person = new Person;
+        $person->fill(['dni' => $request->dni, 'firstname' => $request->firstname, 'lastname' => $request->lastname, 'phone' => $request->phone, 'email' => $request->email]);
+        $person->id_role = $role->id_role;
+        $person->save();
+
+        $account = new Account;
+        $account->username = $request->username;
+        $account->password = Hash::make($request->password);
+        $account->id_person = $person->id_person;
+        $account->save();
+        
+        $location = new Location;
+        $location->fill($request->only(['city', 'address', 'latitude', 'longitude']));
+        $location->id_person = $person->id_person;
+        $location->save();      
+
+        return redirect('/login')->with('success', 'El usuario ha sido registrado correctamente');
     }
 }

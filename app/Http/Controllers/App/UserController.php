@@ -164,7 +164,7 @@ class UserController extends Controller
 
         $person->save();
 
-        return redirect()->route($request->current_route)->with('success', 'La información de la cuenta ha sido modificada.');
+        return back()->with('success', 'La información de la cuenta ha sido modificada.');
     }
 
     public function editUserPass(Request $request){
@@ -178,9 +178,22 @@ class UserController extends Controller
             $account->password = Hash::make($request->new_password);
             $account->save();
 
-            return redirect()->route($request->current_route)->with('success', 'La contraseña de la cuenta ha sido modificada.');
+            return back()->with('success', 'La contraseña de la cuenta ha sido modificada.');
         }
 
         return back()->with('error', 'La contraseña ingresada es incorrecta');
+    }
+
+    public function editUserLocation(Request $request){
+        $location = Location::where('id_person', auth()->user()->person->id_person)->first();
+
+        $location->city = $request->city;
+        $location->address = $request->address;
+        $location->latitude = $request->latitude;
+        $location->longitude = $request->longitude;
+
+        $location->save();
+
+        return back()->with('success', 'Los datos de ubicación han sido modificados correctamente.');
     }
 }

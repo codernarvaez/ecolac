@@ -12,6 +12,21 @@ class ConfigController extends Controller
     }
 
     public function showMainPage(){
-        return view('app.config.main');
+        return redirect()->route('config-account');
+    }
+
+    public function showAccountConfig(){
+        return view('app.config.account');
+    }
+
+    public function showSystemConfig(){
+        return view('app.config.system');
+    }
+
+    public function setConfigEmail(Request $request){
+        config(['mail.from.name' => $request->name]);
+        config(['mail.from.address' => $request->email]);
+
+        return back()->with('success', 'Se han fijado las nuevas configuraciones del sistema.');
     }
 }

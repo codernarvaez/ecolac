@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\App;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Builder;
@@ -12,6 +13,7 @@ use App\Utils\Utilities;
 use App\Product;
 use App\ProductDetail;
 use App\Lot;
+use App\Image;
 
 class ProductController extends Controller
 {
@@ -20,12 +22,12 @@ class ProductController extends Controller
     }
 
     public function showPageList($p = 1){
-        $count = Product::all()->count();
+        $count = Product::where('deleted', 0)->count();
         if($p > 1){
             $skip = ($p - 1) * 20;
-            $products = Product::orderBy('id_product','desc')->skip($skip)->take(20)->get();
+            $products = Product::where('deleted', 0)->orderBy('id_product','desc')->skip($skip)->take(20)->get();
         }else{
-            $products = Product::orderBy('id_product','desc')->take(20)->get();
+            $products = Product::where('deleted', 0)->orderBy('id_product','desc')->take(20)->get();
         }
         
         $token = strtoupper(Utilities::getToken(8));
@@ -34,17 +36,17 @@ class ProductController extends Controller
 
     public function searchProducts(Request $request, $p = 1){
         if(strlen($request->text) >= 3){
-            $count = Product::whereRaw('name regexp "'. $request->text .'"')->count();
+            $count = Product::whereRaw('name regexp "'. $request->text .'" and deleted = 0')->count();
 
             if($p > 1){
                 $skip = ($p - 1) * 20;
-                $products = Product::whereRaw('name regexp "'. $request->text .'"')
+                $products = Product::whereRaw('name regexp "'. $request->text .'" and deleted = 0')
                                     ->orderBy('id_product','desc')
                                     ->skip($skip)
                                     ->take(20)
                                     ->get();
             }else{
-                $products = Product::whereRaw('name regexp "'. $request->text .'"')
+                $products = Product::whereRaw('name regexp "'. $request->text .'" and deleted = 0')
                                     ->orderBy('id_product','desc')
                                     ->take(20)
                                     ->get();
@@ -84,8 +86,7 @@ class ProductController extends Controller
             $presentation = explode(",", $request->presentation);
             $product->presentation = json_encode($presentation);
         }
-
-        $product->expires = ($request->expires) ? 1:0;       
+    
         $product->has_iva = ($request->iva) ? 1:0;       
         $product->external_id = Str::uuid();
 
@@ -141,10 +142,17 @@ class ProductController extends Controller
         }
 
         $product->has_iva = ($request->iva) ? 1:0;
-        $product->expires = ($request->expires) ? 1:0;
         $product->save();
 
         return redirect('/products/view/'.$product->external_id)->with('success', 'El producto ha sido modificado correctamente.');
+    }
+
+    public function deleteProduct(Request $request){
+        $product = Product::where('external_id', $request->external)->first();
+        $product->deleted = true;
+        $product->save();
+
+        return redirect()->route('products')->with('success', 'El producto ha sido eliminado correctamente.');
     }
 
     public function getProductList($p = 1){
@@ -156,11 +164,11 @@ class ProductController extends Controller
             $skip = ($p - 1) * 20;
             $products = Product::whereHas('lots', function (Builder $query){
                 $query->where('expiry', '>=', date('Y-m-d', time()));
-            })->orderBy('id_product','desc')->skip($skip)->take(5)->get();
+            })->where('deleted', 0)->orderBy('id_product','desc')->skip($skip)->take(5)->get();
         }else{
             $products = Product::whereHas('lots', function (Builder $query){
                 $query->where('expiry', '>=', date('Y-m-d', time()));
-            })->orderBy('id_product','desc')->take(5)->get();
+            })->where('deleted', 0)->orderBy('id_product','desc')->take(5)->get();
         }
 
         return ["products" => $products, "pages" => $pages, "current_page" => $p];
@@ -182,5 +190,28 @@ class ProductController extends Controller
         $product->price = round($product->price, 2, PHP_ROUND_HALF_UP);
 
         return ['product' => $product];
+    }
+
+    public function addImage(Request $request){
+        $path = $request->file('product_image')->store('images');
+        $product = Product::where('external_id', $request->external)->first();
+        
+        $image = new Image;
+        $image->path = $path;
+        $image->id_product = $product->id_product;
+
+        $image->save();
+
+        return back()->with('success', 'La imagen ha sido guardada correctamente.');
+    }
+
+    public function deleteImage(Request $request){
+        $image = Image::where('id_image', $request->id_image)->first();
+        
+        Storage::delete($image->path);
+
+        $image->delete();
+
+        return back()->with('success', 'La imagen ha sido eliminada correctamente.');
     }
 }

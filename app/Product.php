@@ -18,7 +18,7 @@ class Product extends Model
     ];
 
     protected $attributes = [
-        'expires' => false,
+        'expires' => true,
         'deleted' => false,
         'has_iva' => false
     ];
@@ -31,5 +31,10 @@ class Product extends Model
     public function lots()
     {
         return $this->hasMany('App\Lot', 'id_product', 'id_product');
+    }
+
+    public function images()
+    {
+        return $this->hasMany('App\Image', 'id_product', 'id_product');
     }
 }

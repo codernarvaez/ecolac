@@ -73,6 +73,13 @@
                     </div>
                 </div>
                 @endforeach
+                @if (count($users) == 0)
+                <div class="row align-items-center">
+                    <div class="col-12">
+                        <p class="empty">No se han encontrado elementos para esta lista.</p>
+                    </div>
+                </div>
+                @endif     
             </div>
         </div>
         <div class="row table-footer align-items-center">

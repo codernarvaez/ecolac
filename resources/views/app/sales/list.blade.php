@@ -39,7 +39,7 @@
                 <div class="row align-items-center">
                     <div class="col-2">
                         @if (!$sale->paid)
-                        <a href="#" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#paid-modal" onclick="setExternal('{{ $sale->external_id }}')">Fijar como pagada</a>      
+                        <a href="#" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#paid-modal" onclick="setExternal('{{ $sale->external_id }}')">Registrar Pago</a>      
                         @else
                         (Ninguna)
                         @endif                        
@@ -50,6 +50,13 @@
                     <div class="col-2">{{ ($sale->paid) ? 'Pagada':'No Pagada' }}</div>
                 </div>
                 @endforeach
+                @if (count($sales) == 0)
+                <div class="row align-items-center">
+                    <div class="col-12">
+                        <p class="empty">No se han encontrado elementos para esta lista.</p>
+                    </div>
+                </div>
+                @endif   
             </div>
         </div>
         <div class="row table-footer align-items-center">

@@ -11,7 +11,22 @@
     <title>Login | Online Shop</title>
 </head>
 <body>
-    <div class="container h-100">
+    <header>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-8">
+                    <a class="logo" href="/">
+                        <img src="/img/logo_b.png" alt="EcolacShop">
+                    </a>
+                </div>
+                <div class="col-4 text-right">
+                    <span class="text-login mr-2">¿No tienes cuenta?</span>
+                    <a href="/register" class="btn btn-primary btn-login">¡Regístrate!</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container h-100" style="padding-top: 70px;">
         <div id="wrapper" class="row align-items-center justify-content-center h-100">
             <div class="col-4">
                 <div class="login-box">
@@ -23,6 +38,11 @@
                         @if (session('status'))
                         <div class="alert alert-danger text-center" role="alert">
                             {{ session('status') }}
+                        </div>
+                        @endif
+                        @if (session('success'))
+                        <div class="alert alert-success text-center" role="alert">
+                            {{ session('success') }}
                         </div>
                         @endif
                         <form method="POST" action="{{ route('login') }}">
@@ -39,8 +59,7 @@
                                 <button type="submit" class="btn btn-primary btn-block">Iniciar Sesion</button>
                             </div>
                         </form>
-                        <p class="text-center mb-5"><small><a href="#" class="form-text text-muted">¿Olvidaste tu contraseña?</a></small></p>
-                        <p class="text-center copyright">© Todos los derechos reservados.</p>
+                        <p class="text-center copyright mt-5">© Todos los derechos reservados.</p>
                     </div>
                 </div>
             </div>

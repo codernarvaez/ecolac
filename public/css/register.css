@@ -8,7 +8,7 @@ html{
 body{
     position: relative;
     background-color: #f9f9fb;
-    padding: 50px 0;
+    padding: 0px 0 50px;
 }
 
 .btn-primary{
@@ -108,4 +108,26 @@ form{
     z-index: 2;
     position: relative;
     padding: 0 15px 0 0;
+}
+
+.btn-login{
+    padding: 5px 10px;
+}
+.text-login{
+    position: relative;
+    top: 2px;
+    color: #3e3e3e;
+}
+
+.header{
+    background: url('/img/bg_register.jpg') no-repeat;
+    background-position: center;
+    background-size: cover;
+    padding: 70px 0;
+    margin-bottom: 50px;
+    border-bottom: 5px solid #615f79;
+}
+
+.header img{
+    width: 240px;
 }

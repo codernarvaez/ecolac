@@ -3,7 +3,7 @@
 @section('content')
 <div class="row align-items-center">
     <div class="col">
-        <h2 class="section-title mb-0">Detalle de Producto</h2>        
+        <h2 class="section-title mb-0">Información</h2>        
     </div>
     <div class="col text-right">
         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#product-modal">Editar producto</button>
@@ -21,9 +21,9 @@
         <h4 class="product-name">{{ $product->name }}</h4>
         <p class="product-description mb-0">{{ $product->description }}</p>
     </div>
-    <div class="col-3 mb-4">
+    <div class="col-3 mb-4 text-right">
         <span class="price-tag">Precio</span>
-        <span class="price">$ {{ $product->price }}</span>
+        <span class="price">$ {{ number_format((float)$product->price, 2, '.', '') }}</span>
     </div>
     <div class="col-6">
         <div class="row align-items-center feature-box mr-2">
@@ -107,9 +107,42 @@
         </div>
     </div>
 </div>
+
 <div class="row align-items-center">
     <div class="col">
-        <h2 class="section-title mb-0">Lotes del Producto</h2>        
+        <h2 class="section-title mb-0">Imágenes</h2>        
+    </div>
+    <div class="col text-right">
+        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#add-image-modal">Añadir imagen</button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="divider-line"></div>
+    </div>
+</div>
+
+@if (count($product->images) == 0)
+<div class="row">
+    <div class="col">
+        <p class="empty-list">No se han añadido imágenes para este producto.</p>
+    </div>
+</div>
+@endif
+
+<div id="carousel" class="owl-carousel images_carousel mb-5">
+    @foreach ($product->images as $image)
+    <div class="item">
+        <img src="/storage/{{ $image->path }}" alt="Imagen del Product">
+        <a href="#" class="delete_image" data-toggle="modal" data-target="#delete-image" onclick="deleteImage({{ $image->id_image }})"><i class="fas fa-times-circle"></i></a>
+    </div>
+    @endforeach    
+</div>
+
+<div class="row align-items-center">
+    <div class="col">
+        <h2 class="section-title mb-0">Lotes</h2>        
     </div>
     <div class="col text-right">
         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#lot-modal">Añadir lote</button>
@@ -136,16 +169,7 @@
                 @foreach ($product->lots as $lot)
                 <div class="row align-items-center">
                     <div class="col-2">
-                        <div class="dropdown dropright">
-                            <a class="btn btn-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-ellipsis-v"></i>
-                            </a>
-                            
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="#">Desactivar</a>
-                            </div>
-                        </div>
-                        <a href="#" class="btn btn-outline-primary btn-sm">Editar</a>
+                        <a href="#" class="btn btn-outline-primary btn-sm">Deshabilitar</a>
                     </div>
                     <div class="col-3">
                         {{ ($product->expires) ? date("d/m/Y", strtotime($lot->elaboration)):date("d/m/Y", strtotime($lot->created_at)) }}
@@ -360,4 +384,73 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Image -->
+<div class="modal fade" id="add-image-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Añadir Imagen</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('add-product-image') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="external" value="{{ $product->external_id }}">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="customFile" name="product_image" accept="image/*">
+                        <label class="custom-file-label text-left" for="customFile" style="padding-left: 15px;margin-left: 20px;">Seleccionar Archivo</label>
+                    </div>
+                    <div class="form-group text-right mt-4">
+                        <button type="submit" class="btn btn-primary mr-2">Cargar Imagen</button>
+                        <button type="reset" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Delete -->
+<div class="modal fade" id="delete-image" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Eliminar imagen</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="confirm-msg">¿Está seguro/a que desea realizar esta acción?</p>
+                <form action="{{ route('delete-image') }}" method="POST">
+                    @csrf
+                    @method('delete')
+                    <input type="hidden" name="id_image" id="id_image">
+                    <div class="form-group text-right mt-4">
+                        <button type="submit" class="btn btn-primary mr-2">Confirmar</button>
+                        <button type="reset" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
+@section('scripts')
+<script src="/js/owl.carousel.min.js"></script>
+<script>
+$('#carousel').owlCarousel({
+    margin: 20,
+    autoWidth: true,
+    items: 3
+});
+
+function deleteImage(id){
+    $('#id_image').val(id);   
+}
+</script>
 @endsection

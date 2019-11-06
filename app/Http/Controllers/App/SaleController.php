@@ -4,6 +4,10 @@ namespace App\Http\Controllers\App;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+
+use App\Mail\OrderDispatched;
+use App\Mail\OrderDischarged;
 use App\Http\Controllers\Controller;
 
 use App\Sale;
@@ -83,6 +87,10 @@ class SaleController extends Controller
         $order->state = "Despachado";
         $order->save();
 
+        Mail::to($order->client->email)
+                ->queue(new OrderDispatched($sale));
+
+
         return redirect('/orders')->with('success', 'La orden ha sido despachada correctamente.');
     }
 
@@ -90,6 +98,9 @@ class SaleController extends Controller
         $sale = Sale::where('external_id', $request->external)->first();
         $sale->paid = true;
         $sale->save();
+
+        Mail::to($sale->client->email)
+                ->queue(new OrderDischarged($sale));
 
         return redirect('/sales')->with('success', 'La venta ha sido pagada correctamente.');
     }

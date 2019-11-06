@@ -8,6 +8,7 @@ Route::get('/', function () {
 // ************** Authentication **************
 Route::get('/login', 'Auth\LoginController@showLogin');
 Route::get('/register', 'Auth\RegisterController@showRegister');
+Route::post('/register', 'Auth\RegisterController@registerUser')->name('register-user');
 Route::post('/login', 'Auth\LoginController@login')->name('login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
@@ -18,9 +19,12 @@ Route::get('/products/ajax/list/{p?}', 'App\ProductController@getProductList')->
 Route::get('/products/ajax/get/{external}', 'App\ProductController@getProduct')->name('get-product');
 Route::get('/products/view/{external}', 'App\ProductController@showPageDetail');
 Route::post('/products/add', 'App\ProductController@addProduct')->name('add-product');
+Route::post('/products/delete', 'App\ProductController@deleteProduct')->name('delete-product');
 Route::post('/products/add/detail', 'App\ProductController@addProductDetail')->name('add-product-detail');
 Route::post('/products/add/lot', 'App\ProductController@addProductLot')->name('add-product-lot');
+Route::post('/products/add/image', 'App\ProductController@addImage')->name('add-product-image');
 Route::put('/products/edit', 'App\ProductController@editProduct')->name('edit-product');
+Route::delete('/products/delete/image', 'App\ProductController@deleteImage')->name('delete-image');
 
 // ************** Users **************
 Route::get('/users/search/{p?}', 'App\UserController@searchUsers')->name('search-users');
@@ -31,6 +35,7 @@ Route::post('/users/disable', 'App\UserController@disableAccount')->name('disabl
 Route::post('/users/restore', 'App\UserController@resetPassword')->name('restore-user');
 Route::post('/users/auth/edit', 'App\UserController@editUserInfo')->name('edit-auth-user');
 Route::post('/users/auth/password', 'App\UserController@editUserPass')->name('edit-pass-user');
+Route::post('/users/auth/location', 'App\UserController@editUserLocation')->name('edit-location-user');
 Route::get('/users/ajax/customers', 'App\UserController@getCustomers')->name('list-customers');
 Route::put('/users/edit', 'App\UserController@editUser')->name('edit-user');
 
@@ -53,6 +58,21 @@ Route::get('/reports', 'App\ReportController@showPageList')->name('reports');
 
 // ************** Config **************
 Route::get('/config', 'App\ConfigController@showMainPage')->name('config');
+Route::get('/config/account', 'App\ConfigController@showAccountConfig')->name('config-account');
+Route::get('/config/system', 'App\ConfigController@showSystemConfig')->name('config-system');
+Route::post('/config/system/email', 'App\ConfigController@setConfigEmail')->name('set-config-email');
+
+// ************** Mailing and PDF Generation **************
+Route::get('/mails/order/status', function () {
+    $order = App\Order::all()->first();
+    return new App\Mail\OrderStatus($order);
+});
+
+Route::name('print')->get('/print/{external}', function($external){
+    $sale = App\Sale::where('external_id', $external)->first();
+    $pdf = \PDF::loadView('app.pdf.bill', compact('sale'));
+    return $pdf->download('FACTURA_'.$sale->code.'_'.date('d/m/Y', strtotime($sale->code)).'.pdf');
+});
 
 // ************** Data Generation **************
 Route::get('/generate', function () {
