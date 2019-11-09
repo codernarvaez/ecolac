@@ -26,6 +26,8 @@ class LoginController extends Controller{
         if(Auth::attempt($credentials)){
             if(auth()->user()->person->role->name == "Superadmin" || auth()->user()->person->role->name == "Administrador"){
                 return redirect()->route('products');
+            }elseif (Auth::user()->person->role->name == "Cliente") {
+                return redirect('/');
             }else{
                 return redirect()->route('sales');
             }            

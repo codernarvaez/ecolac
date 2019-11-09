@@ -20,9 +20,11 @@ class RedirectIfAuthenticated
         if (Auth::guard($guard)->check()) {
             if(Auth::user()->person->role->name == "Superadmin" || Auth::user()->person->role->name == "Administrador"){
                 return redirect('/products');
+            }elseif (Auth::user()->person->role->name == "Cliente"){
+                return redirect('/');
             }else{
                 return redirect('/sales');
-            }            
+            }        
         }
 
         return $next($request);

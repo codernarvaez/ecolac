@@ -1,0 +1,314 @@
+
+/* FONTS
+-----------------------------------------------------------------------------------------*/
+@font-face{ font-family: "Morganite-Black"; src: url(/fonts/morganite/Morganite-Black.ttf); }
+@font-face{ font-family: "Morganite-Book"; src: url(/fonts/morganite/Morganite-Book.ttf); }
+@font-face{ font-family: "Morganite-Light"; src: url(/fonts/morganite/Morganite-Light.ttf); }
+@font-face{ font-family: "Morganite-Medium"; src: url(/fonts/morganite/Morganite-Medium.ttf); }
+@font-face{ font-family: "Morganite-MediumItalic"; src: url(/fonts/morganite/Morganite-MediumItalic.ttf); }
+/* END FONTS
+-----------------------------------------------------------------------------------------*/
+
+/* MAIN STYLES
+-----------------------------------------------------------------------------------------*/
+body{
+    position: relative;
+    font-family: 'Nunito', sans-serif;
+}
+header{
+    background: url(/img/bg_01.jpg) no-repeat;
+    background-position: center;
+    background-size: cover;
+    padding: 80px 0 200px;
+}
+.hidden{
+    display: none;
+}
+.btn-primary{
+    background-color: #4b7aed;
+    color: #fff;
+}
+.btn-primary:hover{
+    background-color: #436edb;
+    color: #fff;
+}
+.btn-outline-primary{
+    border-color: #4b7aed;
+    color: #4b7aed;
+}
+.btn-outline-primary:hover{
+    background-color: #4b7aed;
+    border-color: #4b7aed;
+    color: #fff;
+}
+.btn-outline-light{
+    border-radius: 15px;
+    font-size: 14px;
+    padding: 7px 18px;
+}
+.header-logo{
+    margin-bottom: 70px;
+}
+.logo{
+    width: 180px;
+}
+
+.h_sub{
+    font-family: "Morganite-Light";
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 75px;
+    line-height: 1;
+    opacity: 0.8;
+}
+
+.h_title{
+    font-family: "Morganite-Black";
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 125px;
+    line-height: 1;
+    opacity: 0.8;
+}
+
+.boxes{
+    margin-top: -150px;
+    margin-bottom: 60px;
+}
+.boxes .container{
+    border-radius: 20px;
+    overflow: hidden;
+    -webkit-box-shadow: 0px 5px 18px 0px rgba(0,0,0,0.6);
+    -moz-box-shadow: 0px 5px 18px 0px rgba(0,0,0,0.6);
+    box-shadow: 0px 5px 18px 0px rgba(0,0,0,0.6);
+}
+.box_01{
+    background: url(/img/box_01.jpg) no-repeat;
+}
+.box_02{
+    background: url(/img/box_02.jpg) no-repeat;
+}
+.box_03{
+    background: url(/img/box_03.jpg) no-repeat;
+}
+
+.box{
+    position: relative;
+    height: 320px;
+    background-position: center;
+    background-size: cover;
+}
+
+.box h5{
+    font-family: "Morganite-MediumItalic";
+    position: absolute;
+    bottom: 30px;
+    left: 0;
+    right: 0;
+    margin-bottom: 0;
+    color: #afafbf;
+    font-size: 70px;
+    text-transform: uppercase;
+}
+
+.user_box{
+    position: relative;
+    display: inline-block;
+    color: #fff;
+    padding: 8px 20px;
+    padding-left: 55px;
+    border-radius: 6px;
+    background-color: transparent;
+    text-decoration: none;
+}
+.user_box:hover{
+    color: #fff;
+    background-color: rgba(31, 30, 46, 0.3);
+    text-decoration: none;
+}
+.user_box span{
+    display: block;
+    text-align: left;
+}
+.user_box .email{
+    font-size: 12px;
+}
+.user_box i{
+    position: absolute;
+    top: 18px;
+    left: 15px;
+    font-size: 24px;
+}
+.cart{
+    color: #fff;
+    font-size: 20px;
+    padding: 14px 16px 14px 12px;
+    display: inline-block;
+    position: relative;
+    top: -7px;
+    border-radius: 6px;
+}
+.cart:hover{
+    color: #fff;
+    background-color: rgba(31, 30, 46, 0.3);
+    text-decoration: none;
+}
+.cart .not_empty{
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    right: 10px;
+    top: 13px;
+    background-color: #f15959;
+    border-radius: 100%;
+}
+
+.products h5{
+    font-weight: 700;
+    font-size: 28px;
+    color: #4e4e4e;
+}
+.product_box{
+    margin-bottom: 50px;
+}
+.product_image{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 250px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+.product_details{
+    text-align: center;
+}
+.product_details span{
+    display: block;
+}
+.product_details .title{
+    font-weight: 700;
+    font-size: 18px;
+}
+.product_details .price{
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+footer{
+    background-color: #f9f9fb;
+    padding: 50px 0;
+    border-top: 4px solid #efefef;
+}
+footer img{
+    width: 90px;
+    margin-bottom: 20px;
+}
+footer p{
+    font-size: 14px;
+    color: #9e9e9e;
+}
+
+.drop-header{
+    padding: 6px 15px;
+    background-color: #4f4f5d;
+    margin-bottom: 5px;
+}
+.drop-header .drop-options{
+	float: right;
+}
+.drop-header .drop-options a{
+	font-size: 12px;
+	text-transform: uppercase;
+	color: #fff;
+	opacity: 0.7;
+}
+.drop-header .drop-options a:first-child:after{
+	content: '•';
+	color: #fff;
+	font-size: 12px;
+	margin-left: 7px;
+	margin-right: 5px;
+	opacity: 0.7;
+}
+.drop-header .title{
+	font-size: 16px;
+    color: #F0F3F4;
+    cursor: default;
+    font-weight: 700; 
+}
+.messages .dropdown-menu{
+    width: 300px;
+    padding: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    border: none;
+}
+.messages .dropdown-menu .drop-body .a{
+	position: relative;
+    display: block;
+    padding: 10px 15px;
+    background-color: #fff;
+    color: #777;
+}
+.messages .dropdown-menu .drop-body .a:last-child{
+	border: none;
+}
+.messages .dropdown-menu .drop-body .a .img{
+	float: left;
+    margin-right: 20px;
+}
+.messages .dropdown-menu .drop-body .a .img img{
+	width: 40px;
+	height: 40px;
+	border-radius: 100%;
+}
+.messages .dropdown-menu .drop-body .a .content{
+	overflow: hidden;
+}
+.messages .dropdown-menu .drop-body .a .content .time{
+	float: right;
+    font-size: 12px;
+    line-height: 20px;
+}
+.messages .dropdown-menu .drop-body .a .content .user{
+	font-size: 13px;
+	line-height: 20px;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+.messages .dropdown-menu .drop-body .a .content .user>span{
+	position: relative;
+    top: -1px;
+	display: none;
+	background-color: #62697F;
+	border: none;
+	border-radius: 0;
+	margin-left: 5px;
+	font-weight: normal;
+}
+.messages .dropdown-menu .drop-body .a .content p{
+	margin-bottom: 0;
+}
+.messages .dropdown-menu .drop-body .a .content .fa-minus{
+    color: #ababab;
+    font-size: 11px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+.messages .dropdown-menu .drop-body .a .content .fa-plus{
+    color: #ababab;
+    font-size: 11px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+.messages .dropdown-menu .drop-body .a.new{
+	color: #373a3c;
+}
+.messages .dropdown-menu .drop-body .a.new .content .user>span{
+	display: inline;
+}
+.messages .dropdown-menu .drop-footer .btn{
+    border-radius: 0;
+    font-size: 14px;
+}
+/* END MAIN STYLES
+-----------------------------------------------------------------------------------------*/

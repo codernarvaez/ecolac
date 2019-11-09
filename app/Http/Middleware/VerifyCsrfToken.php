@@ -19,5 +19,8 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
+        'http://ecolac.test/cart/ajax/new',
+        'http://ecolac.test/cart/ajax/add',
+        'http://ecolac.test/cart/ajax/remove',
     ];
 }

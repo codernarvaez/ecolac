@@ -2,7 +2,15 @@
 
 // ************** Site **************
 Route::get('/', function () {
-    return view('welcome');
+    $products = App\Product::where('deleted', 0)->orderBy('id_product','desc')->take(8)->get();
+    if(auth()->user()){
+        $user_id = auth()->user()->person->id_person;
+        $cart = \Cart::session($user_id)->getContent();
+        
+        return view('shop',['products' => $products,'cart' => $cart]);
+    }else{
+        return view('shop',['products' => $products]);
+    }    
 });
 
 // ************** Authentication **************
@@ -67,6 +75,13 @@ Route::get('/mails/order/status', function () {
     $order = App\Order::all()->first();
     return new App\Mail\OrderStatus($order);
 });
+
+// ************** Cart **************
+Route::post('/cart/ajax/new/', 'App\CartController@addToCart')->name('new-cart');
+Route::post('/cart/ajax/add/', 'App\CartController@addToItem')->name('add-cart');
+Route::post('/cart/ajax/remove/', 'App\CartController@revomeFromItem')->name('remove-cart');
+Route::post('/cart/ajax/order/', 'App\CartController@addOrder')->name('add-order-cart');
+
 
 Route::name('print')->get('/print/{external}', function($external){
     $sale = App\Sale::where('external_id', $external)->first();
