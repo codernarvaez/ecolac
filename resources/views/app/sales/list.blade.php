@@ -41,7 +41,7 @@
                         @if (!$sale->paid)
                         <a href="#" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#paid-modal" onclick="setExternal('{{ $sale->external_id }}')">Registrar Pago</a>      
                         @else
-                        (Ninguna)
+                        <a href="#" class="btn btn-outline-primary btn-sm" onclick="setExternal('{{ $sale->external_id }}')">Registrar entrega</a>      
                         @endif                        
                     </div>
                     <div class="col-2">#{{ $sale->code }}</div>

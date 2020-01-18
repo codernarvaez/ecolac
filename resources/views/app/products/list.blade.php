@@ -6,7 +6,9 @@
         <h2 class="section-title mb-0">Listado de Productos</h2>        
     </div>
     <div class="col text-right">
+        @if (Auth::user()->person->role->name == "Superadmin" || Auth::user()->person->role->name == "Administrador")
         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#product-modal">Agregar producto</button>
+        @endif
     </div>
 </div>
 
@@ -41,6 +43,7 @@
                 @foreach ($products as $product)
                 <div class="row align-items-center">
                     <div class="col-2">
+                        @if (Auth::user()->person->role->name == "Superadmin" || Auth::user()->person->role->name == "Administrador")
                         <div class="dropdown">
                             <a class="btn btn-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-ellipsis-v"></i>
@@ -48,7 +51,8 @@
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                 <button class="dropdown-item" data-toggle="modal" data-target="#delete-modal" onclick="setExternal('{{ $product->external_id }}')">Eliminar</button>
                             </div>
-                        </div>
+                        </div>    
+                        @endif                        
                         <a href="/products/view/{{ $product->external_id }}" class="btn btn-outline-primary btn-sm">Detalles</a>
                     </div>
                     <div class="col-4">

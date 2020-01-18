@@ -18,7 +18,7 @@ use App\Image;
 class ProductController extends Controller
 {
     public function __construct(){
-        $this->middleware('auth');
+        $this->middleware('auth')->except('getAPIProducts');
     }
 
     public function showPageList($p = 1){
@@ -190,6 +190,12 @@ class ProductController extends Controller
         $product->price = round($product->price, 2, PHP_ROUND_HALF_UP);
 
         return ['product' => $product];
+    }
+
+    public function getAPIProducts(){
+        $products = Product::with('details')->get();
+
+        return ['products' => $products];
     }
 
     public function addImage(Request $request){

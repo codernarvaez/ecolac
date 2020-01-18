@@ -22,11 +22,13 @@
                         Configuración de la Cuenta
                     </a>
                 </li>
+                @if (False)
                 <li>
                     <a href="{{ route('config-system') }}" class="{{ (request()->is('config/system*')) ? 'active' : '' }}">
                         Configuración del Sistema
                     </a>
-                </li>
+                </li>    
+                @endif                
             </ul>
         </div>
     </div>

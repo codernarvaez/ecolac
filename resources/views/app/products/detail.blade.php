@@ -5,9 +5,11 @@
     <div class="col">
         <h2 class="section-title mb-0">Información</h2>        
     </div>
+    @if (Auth::user()->person->role->name == "Superadmin" || Auth::user()->person->role->name == "Administrador")
     <div class="col text-right">
-        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#product-modal">Editar producto</button>
+        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#product-modal">Editar producto</button>    
     </div>
+    @endif        
 </div>
 
 <div class="row">
@@ -30,9 +32,11 @@
             <div class="col-8">
                 <span class="feature-title mb-0">Detalles</span> 
             </div>    
+            @if (Auth::user()->person->role->name == "Superadmin" || Auth::user()->person->role->name == "Administrador")
             <div class="col-4 text-right">
-                <a href="#" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#detail-modal">Añadir</a>
+                <a href="#" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#detail-modal">Añadir</a>                    
             </div>
+            @endif
             <div class="col-12 mt-4">
                 <ul>
                     @foreach ($product->details as $detail)
@@ -112,9 +116,11 @@
     <div class="col">
         <h2 class="section-title mb-0">Imágenes</h2>        
     </div>
+    @if (Auth::user()->person->role->name == "Superadmin" || Auth::user()->person->role->name == "Administrador")
     <div class="col text-right">
         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#add-image-modal">Añadir imagen</button>
     </div>
+    @endif
 </div>
 
 <div class="row">
@@ -135,7 +141,9 @@
     @foreach ($product->images as $image)
     <div class="item">
         <img src="/storage/{{ $image->path }}" alt="Imagen del Product">
+        @if (Auth::user()->person->role->name == "Superadmin" || Auth::user()->person->role->name == "Administrador")
         <a href="#" class="delete_image" data-toggle="modal" data-target="#delete-image" onclick="deleteImage({{ $image->id_image }})"><i class="fas fa-times-circle"></i></a>
+        @endif
     </div>
     @endforeach    
 </div>
@@ -144,9 +152,11 @@
     <div class="col">
         <h2 class="section-title mb-0">Lotes</h2>        
     </div>
+    @if (Auth::user()->person->role->name == "Superadmin" || Auth::user()->person->role->name == "Administrador")
     <div class="col text-right">
         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#lot-modal">Añadir lote</button>
     </div>
+    @endif
 </div>
 
 <div class="row">
@@ -169,7 +179,9 @@
                 @foreach ($product->lots as $lot)
                 <div class="row align-items-center">
                     <div class="col-2">
+                        @if (Auth::user()->person->role->name == "Superadmin" || Auth::user()->person->role->name == "Administrador")
                         <a href="#" class="btn btn-outline-primary btn-sm">Deshabilitar</a>
+                        @endif
                     </div>
                     <div class="col-3">
                         {{ ($product->expires) ? date("d/m/Y", strtotime($lot->elaboration)):date("d/m/Y", strtotime($lot->created_at)) }}

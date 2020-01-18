@@ -60,7 +60,9 @@
                     <nav class="main-menu">
                         <ul class="list-inline mb-0">
                             <li class="menu-item list-inline-item {{ (request()->is('product*')) ? 'active' : '' }}"><a href="{{ route('products') }}"><i class="fas fa-box"></i>Inventario</a></li>
+                            @if (Auth::user()->person->role->name == "Superadmin")
                             <li class="menu-item list-inline-item {{ (request()->is('users*')) ? 'active' : '' }}"><a href="{{ route('users') }}"><i class="fas fa-users"></i>Usuarios</a></li>
+                            @endif
                             <li class="menu-item list-inline-item {{ (request()->is('orders*')) ? 'active' : '' }}"><a href="{{ route('orders') }}"><i class="fas fa-clipboard-list"></i>Pedidos</a></li>
                             <li class="menu-item list-inline-item {{ (request()->is('sales*')) ? 'active' : '' }}"><a href="{{ route('sales') }}"><i class="fas fa-coins"></i>Ventas</a></li>
                             <li class="menu-item list-inline-item {{ (request()->is('config*')) ? 'active' : '' }}"><a href="{{ route('config') }}"><i class="fas fa-cog"></i>Configuración</a></li>

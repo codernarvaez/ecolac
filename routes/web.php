@@ -34,6 +34,8 @@ Route::post('/products/add/image', 'App\ProductController@addImage')->name('add-
 Route::put('/products/edit', 'App\ProductController@editProduct')->name('edit-product');
 Route::delete('/products/delete/image', 'App\ProductController@deleteImage')->name('delete-image');
 
+
+Route::get('/api/products/all', 'App\ProductController@getAPIProducts')->name('api-products');
 // ************** Users **************
 Route::get('/users/search/{p?}', 'App\UserController@searchUsers')->name('search-users');
 Route::get('/users/{p?}', 'App\UserController@showPageList')->name('users');
@@ -86,7 +88,7 @@ Route::post('/cart/ajax/order/', 'App\CartController@addOrder')->name('add-order
 Route::name('print')->get('/print/{external}', function($external){
     $sale = App\Sale::where('external_id', $external)->first();
     $pdf = \PDF::loadView('app.pdf.bill', compact('sale'));
-    return $pdf->download('FACTURA_'.$sale->code.'_'.date('d/m/Y', strtotime($sale->code)).'.pdf');
+    return $pdf->download('FACTURA_'.$sale->code.'_'.date('d/m/Y', strtotime($sale->created_at)).'.pdf');
 });
 
 // ************** Data Generation **************
